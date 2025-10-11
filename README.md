@@ -101,11 +101,3 @@ $env:PUBLIC_URL = "https://abcd1234.ngrok-free.dev"
 
 Built by Team Adderit — Celeste, Xavi & Joan.  
 A new way to shop: understand, observe, suggest — naturally.
-`;
-
-// Example: print to console
-console.log(README_MD);
-
-// Example: write to file using Node.js (uncomment to use)
-// const fs = require('fs');
-// fs.writeFileSync('README.md', README_MD);
