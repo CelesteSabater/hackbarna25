@@ -424,6 +424,35 @@ class MealPlanner {
         savedPlansContainer.appendChild(planCard);
     }
 
+    async reloadCurrentPlan(week) {
+        try {
+            console.log(`Recargando plan actual: ${week}`);
+            
+            // Cargar el plan actualizado desde la base de datos
+            const response = await fetch(`${this.apiUrl}/plans/${week}`);
+            
+            if (!response.ok) {
+                throw new Error(`Error ${response.status} al cargar el plan actualizado`);
+            }
+            
+            const updatedPlan = await response.json();
+            console.log('Plan actualizado desde DB:', updatedPlan);
+            
+            // Volver a llenar el formulario con los datos actualizados
+            this.fillFormWithPlan(updatedPlan);
+            
+            // Recargar la lista de planes guardados
+            await this.loadSavedPlans();
+            
+            // Mantener el modo edición activo
+            this.showEditMessage(week);
+            
+        } catch (error) {
+            console.error('Error recargando plan actual:', error);
+            alert('✅ Plan actualizado, pero hubo un error al recargar los datos: ' + error.message);
+        }
+    }
+
     async saveMealPlan(e) {
         e.preventDefault();
         
@@ -469,9 +498,16 @@ class MealPlanner {
             if (response.ok) {
                 const message = isEditing ? '✅ Plan actualizado correctamente!' : '✅ Plan guardado correctamente!';
                 alert(message);
-                await this.loadSavedPlans();
-                this.resetForm();
-                this.cancelEdit(); // Limpiar estado de edición
+                
+                if (isEditing) {
+                    // Después de actualizar, recargar el plan desde la base de datos
+                    await this.reloadCurrentPlan(week);
+                } else {
+                    // Para planes nuevos, limpiar el formulario
+                    await this.loadSavedPlans();
+                    this.resetForm();
+                    this.cancelEdit();
+                }
             } else {
                 alert('❌ ' + (result.error || 'Error al guardar el plan'));
             }
@@ -482,23 +518,19 @@ class MealPlanner {
     }
 
     resetForm() {
-        // Limpiar el formulario pero mantener la semana si estamos editando
+        // Solo resetear si NO estamos en modo edición
         const submitButton = document.querySelector('#mealPlanForm button[type="submit"]');
         const isEditing = submitButton.dataset.editingWeek;
         
         if (!isEditing) {
             document.getElementById('mealPlanForm').reset();
-        }
-        
-        // Resetear datos internos
-        this.initializeCaloriesData();
-        this.updateCaloriesSummary();
-        this.resetCaloriesDisplays();
-        
-        // Limpiar inputs de comidas (excepto si estamos editando)
-        if (!isEditing) {
             document.querySelectorAll('.meal-name').forEach(input => input.value = '');
             document.querySelectorAll('.calories-input').forEach(input => input.value = '');
+            
+            // Resetear datos internos
+            this.initializeCaloriesData();
+            this.updateCaloriesSummary();
+            this.resetCaloriesDisplays();
         }
     }
 
@@ -609,64 +641,99 @@ class MealPlanner {
     fillFormWithPlan(plan) {
         console.log('Llenando formulario con plan:', plan);
         
-        // Establecer la semana
-        const weekInput = document.getElementById('week');
-        if (weekInput) {
-            weekInput.value = plan.week;
-        }
-        
-        // Resetear datos de calorías primero
-        this.initializeCaloriesData();
-        
-        // Llenar los datos de comidas y calorías
-        this.daysOfWeek.forEach(day => {
-            const dayKey = day.toLowerCase();
+        // Pequeño delay para asegurar que el DOM esté listo
+        setTimeout(() => {
+            // Establecer la semana
+            const weekInput = document.getElementById('week');
+            if (weekInput) {
+                weekInput.value = plan.week;
+            }
             
-            this.mealTimes.forEach(mealTime => {
-                const mealKey = mealTime.toLowerCase();
-                const nameInput = document.querySelector(
-                    `input.meal-name[data-day="${dayKey}"][data-meal="${mealKey}"]`
-                );
-                const caloriesInput = document.querySelector(
-                    `input.calories-input[data-day="${dayKey}"][data-meal="${mealKey}"]`
-                );
+            // Resetear datos de calorías primero
+            this.initializeCaloriesData();
+            
+            let hasData = false;
+            
+            // Llenar los datos de comidas y calorías
+            this.daysOfWeek.forEach(day => {
+                const dayKey = day.toLowerCase();
                 
-                if (plan.mealDetails && plan.mealDetails[dayKey] && plan.mealDetails[dayKey][mealKey]) {
-                    const mealData = plan.mealDetails[dayKey][mealKey];
-                    if (nameInput) nameInput.value = mealData.name || '';
-                    if (caloriesInput) {
-                        const calories = mealData.calories || 0;
-                        caloriesInput.value = calories;
-                        this.updateMealCalories(dayKey, mealKey, calories);
+                this.mealTimes.forEach(mealTime => {
+                    const mealKey = mealTime.toLowerCase();
+                    const nameInput = document.querySelector(
+                        `input.meal-name[data-day="${dayKey}"][data-meal="${mealKey}"]`
+                    );
+                    const caloriesInput = document.querySelector(
+                        `input.calories-input[data-day="${dayKey}"][data-meal="${mealKey}"]`
+                    );
+                    
+                    let mealName = '';
+                    let mealCalories = 0;
+                    
+                    // Buscar datos en mealDetails (estructura nueva)
+                    if (plan.mealDetails && plan.mealDetails[dayKey] && plan.mealDetails[dayKey][mealKey]) {
+                        const mealData = plan.mealDetails[dayKey][mealKey];
+                        mealName = mealData.name || '';
+                        mealCalories = mealData.calories || 0;
+                        hasData = true;
+                    } 
+                    // Fallback a la estructura antigua de meals
+                    else if (plan.meals && plan.meals[dayKey] && plan.meals[dayKey][mealKey]) {
+                        mealName = plan.meals[dayKey][mealKey] || '';
+                        hasData = true;
                     }
-                } else if (plan.meals && plan.meals[dayKey] && plan.meals[dayKey][mealKey]) {
-                    // Fallback a la estructura antigua
-                    if (nameInput) nameInput.value = plan.meals[dayKey][mealKey] || '';
-                    if (caloriesInput) {
-                        caloriesInput.value = '';
-                        this.updateMealCalories(dayKey, mealKey, 0);
+                    
+                    // Actualizar inputs
+                    if (nameInput) {
+                        nameInput.value = mealName;
                     }
-                } else {
-                    // Limpiar inputs si no hay datos
-                    if (nameInput) nameInput.value = '';
                     if (caloriesInput) {
-                        caloriesInput.value = '';
-                        this.updateMealCalories(dayKey, mealKey, 0);
+                        caloriesInput.value = mealCalories;
+                        this.updateMealCalories(dayKey, mealKey, mealCalories);
                     }
-                }
+                });
             });
-        });
-        
-        // Actualizar el resumen de calorías
-        this.updateCaloriesSummary();
-        
-        // Mostrar mensaje de edición
-        this.showEditMessage(plan.week);
+            
+            // Actualizar el resumen de calorías
+            this.updateCaloriesSummary();
+            
+            // Mostrar mensaje de edición
+            this.showEditMessage(plan.week);
+            
+            console.log('Formulario llenado exitosamente. Datos encontrados:', hasData);
+            
+        }, 100);
+    }
+
+    async reloadFromDatabase(week) {
+        try {
+            console.log(`Recargando manualmente plan: ${week}`);
+            
+            const response = await fetch(`${this.apiUrl}/plans/${week}`);
+            
+            if (!response.ok) {
+                throw new Error(`Error ${response.status} al cargar el plan`);
+            }
+            
+            const plan = await response.json();
+            
+            // Volver a llenar el formulario
+            this.fillFormWithPlan(plan);
+            
+            alert('✅ Plan recargado desde la base de datos');
+            
+        } catch (error) {
+            console.error('Error recargando desde BD:', error);
+            alert('❌ Error al recargar el plan: ' + error.message);
+        }
     }
 
     showEditMessage(week) {
         // Primero, limpiar cualquier mensaje existente
-        this.cancelEdit();
+        const existingMessage = document.getElementById('edit-message');
+        if (existingMessage && existingMessage.parentNode) {
+            existingMessage.remove();
+        }
         
         // Crear nuevo mensaje
         const editMessage = document.createElement('div');
@@ -677,60 +744,42 @@ class MealPlanner {
             <div class="edit-alert">
                 <strong>✏️ Editando plan de la semana ${week}</strong>
                 <p>Modifica las comidas y calorías que necesites y haz clic en "Actualizar Plan"</p>
-                <button onclick="mealPlanner.cancelEdit()" class="btn-cancel">❌ Cancelar edición</button>
+                <div class="edit-actions">
+                    <button onclick="mealPlanner.reloadFromDatabase('${week}')" class="btn-reload">
+                        🔄 Recargar desde BD
+                    </button>
+                    <button onclick="mealPlanner.cancelEdit()" class="btn-cancel">
+                        ❌ Cancelar edición
+                    </button>
+                </div>
             </div>
         `;
         
-        // Intentar diferentes ubicaciones para insertar el mensaje
-        const possibleContainers = [
-            document.getElementById('editMessageContainer'),
-            document.querySelector('.days-list'),
-            document.querySelector('.form-group:last-child')
-        ];
-        
-        let inserted = false;
-        for (const container of possibleContainers) {
-            if (container && container.parentNode) {
-                container.parentNode.insertBefore(editMessage, container);
-                inserted = true;
-                break;
-            }
-        }
-        
-        // Si no se pudo insertar en ninguna ubicación preferida, usar el formulario
-        if (!inserted) {
-            const form = document.querySelector('.meal-plan-form');
-            if (form) {
-                form.insertBefore(editMessage, form.firstChild);
-            }
+        // Insertar el mensaje en el formulario
+        const form = document.querySelector('.meal-plan-form');
+        const firstFormGroup = form.querySelector('.form-group');
+        if (firstFormGroup && firstFormGroup.parentNode) {
+            form.insertBefore(editMessage, firstFormGroup.nextSibling);
+        } else {
+            form.appendChild(editMessage);
         }
         
         // Añadir clase visual al formulario
-        const form = document.querySelector('.meal-plan-form');
-        if (form) {
-            form.classList.add('form-editing');
-        }
+        form.classList.add('form-editing');
         
         // Actualizar el botón de submit
         const submitButton = document.querySelector('#mealPlanForm button[type="submit"]');
         if (submitButton) {
+            if (!submitButton.dataset.originalText) {
+                submitButton.dataset.originalText = submitButton.textContent;
+            }
             submitButton.textContent = '💾 Actualizar Plan';
             submitButton.dataset.editingWeek = week;
         }
     }
 
     cancelEdit() {
-        // Restaurar el formulario completamente
-        document.getElementById('mealPlanForm').reset();
-        
-        // Resetear todos los datos
-        this.initializeCaloriesData();
-        this.updateCaloriesSummary();
-        this.resetCaloriesDisplays();
-        document.querySelectorAll('.meal-name').forEach(input => input.value = '');
-        document.querySelectorAll('.calories-input').forEach(input => input.value = '');
-        
-        // Ocultar mensaje de edición de forma segura
+        // Limpiar mensaje de edición
         const editMessage = document.getElementById('edit-message');
         if (editMessage && editMessage.parentNode) {
             editMessage.remove();
@@ -749,6 +798,16 @@ class MealPlanner {
             delete submitButton.dataset.originalText;
             delete submitButton.dataset.editingWeek;
         }
+        
+        // Limpiar el formulario completamente
+        document.getElementById('mealPlanForm').reset();
+        document.querySelectorAll('.meal-name').forEach(input => input.value = '');
+        document.querySelectorAll('.calories-input').forEach(input => input.value = '');
+        
+        // Resetear datos internos
+        this.initializeCaloriesData();
+        this.updateCaloriesSummary();
+        this.resetCaloriesDisplays();
     }
 }
 
