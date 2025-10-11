@@ -1,8 +1,4 @@
-# // Copy-paste this into a .js file or the console. It defines a string `README\_MD`
-
-# // containing the README markdown, ready to write to a file or print.
-
-# const README\_MD = `# VIBE SHOPPING — by Celeste, Xavi \& Joan 🚀
+# VIBE SHOPPING — by Celeste, Xavi \& Joan 🚀
 
 # 
 
