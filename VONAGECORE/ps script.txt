@@ -1,0 +1,18 @@
+# Situa't a la carpeta VONAGE_CLIENT
+cd path\to\VONAGE_CLIENT
+
+# Clona el repo temporalment
+git clone https://github.com/justadudewhohacks/face-api.js.git temp_faceapi
+
+# Crea carpeta models al projecte si no existeix
+mkdir models
+
+# Copia la carpeta weights a ./models
+# (si tens robocopy disponible)
+robocopy .\temp_faceapi\weights .\models /E
+
+# Neteja el repo temporal
+Remove-Item -Recurse -Force temp_faceapi
+
+# Comprova fitxers copiats
+Get-ChildItem .\models -Recurse | Select-Object FullName, Length -First 20
