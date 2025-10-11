@@ -29,7 +29,7 @@ Thumbs.db
 static/uploads/
 *.mp3
 *.wav
-*.mp4
+#*.mp4
 
 # ngrok config / executables
 ngrok.exe
