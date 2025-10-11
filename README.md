@@ -6,15 +6,13 @@ Intro: we are building an application that understands human language, observes 
 ---
 
 🔧 Tech & Integrations (overview)
-- 1) n8n integration — TO-DO ⬜  
-- 2) Vonage integration — TO-DO ⬜  
-- 3) Norrsken integration — TO-DO ⬜  
-- 4) Glovo API / MCP integration — TO-DO ⬜  
-- 5) VEED / FAL API integration — implemented ✅
+- 1) n8n integration — TO-DO ✅  
+- 2) Glovo API / MCP integration — TO-DO ✅  
+- 3) VEED / FAL API integration — implemented ✅
 
 ---
 
-5) VEED / FAL API integration (what’s inside \`LIPCORE\`) 🎬
+3) VEED / FAL API integration (what’s inside \`LIPCORE\`) 🎬
 
 This folder contains the working prototype that turns image + text into a talking video via fal.ai’s VEED Fabric model.
 

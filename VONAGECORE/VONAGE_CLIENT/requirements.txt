@@ -1,4 +1,0 @@
-﻿# (Requirements are optional for client-only demo; included if you want to serve with Python)
-# Not strictly required to run the client-only demo, but helpful.
-flask
-python-dotenv
