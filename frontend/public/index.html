@@ -13,34 +13,43 @@
             <p>Organiza tus comidas de la semana y controla tus calorías</p>
         </header>
 
-        <div class="meal-plan-form">
-            <h2>Crear Plan Semanal</h2>
-            <form id="mealPlanForm">
-                <div class="form-group">
-                    <label for="week">Semana:</label>
-                    <input type="week" id="week" required>
-                </div>
-                
-                <div class="days-list" id="daysList">
-                    <!-- Los días se generarán dinámicamente -->
-                </div>
+    <div class="meal-plan-form">
+        <h2>Crear Plan Semanal</h2>
+        <form id="mealPlanForm">
+            <div class="form-group">
+                <label for="week">Semana:</label>
+                <input type="week" id="week" required>
+            </div>
+            
+            <!-- Este es el contenedor donde se insertará el mensaje de edición -->
+            <div id="editMessageContainer"></div>
+            
+            <div class="days-list" id="daysList">
+                <!-- Los días se generarán dinámicamente -->
+            </div>
 
-                <div class="calories-summary">
-                    <h3>Resumen de Calorías</h3>
-                    <div class="calories-total">
-                        <strong>Total Semanal: <span id="weeklyTotal">0</span> kcal</strong>
-                    </div>
-                    <div class="calories-daily">
-                        <strong>Promedio Diario: <span id="dailyAverage">0</span> kcal</strong>
-                    </div>
+            <div class="calories-summary">
+                <h3>Resumen de Calorías</h3>
+                <div class="calories-total">
+                    <strong>Total Semanal: <span id="weeklyTotal">0</span> kcal</strong>
                 </div>
-                
-                <button type="submit" class="btn-primary">Guardar Plan</button>
-            </form>
-        </div>
+                <div class="calories-daily">
+                    <strong>Promedio Diario: <span id="dailyAverage">0</span> kcal</strong>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary">Guardar Plan</button>
+        </form>
+    </div>
+
 
         <div class="meal-list">
-            <h2>Mis Planes Guardados</h2>
+            <div class="meal-list-header">
+                <h2>Mis Planes Guardados</h2>
+                <button onclick="mealPlanner.reloadPlans()" class="btn-reload">
+                    🔄 Recargar Planes
+                </button>
+            </div>
             <div id="savedPlans" class="saved-plans">
                 <!-- Los planes guardados aparecerán aquí -->
             </div>

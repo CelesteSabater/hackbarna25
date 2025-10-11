@@ -5,17 +5,60 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const API_URL = process.env.API_URL || 'http://localhost:8000';
+
+// Configuración mejorada de CORS
+app.use(cors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    credentials: true
+}));
 
 // Middleware
 app.use(express.static('public'));
 app.use(express.json());
-app.use(cors());
 
-// Cliente para la API de Python
-const apiClient = axios.create({
-    baseURL: API_URL,
-    timeout: 10000,
+// Cliente para la API de Python con mejores opciones
+const createApiClient = (baseURL) => {
+    return axios.create({
+        baseURL: baseURL,
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    });
+};
+
+// Intentar diferentes URLs del backend
+const backendUrls = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000'
+];
+
+let apiClient = createApiClient(backendUrls[0]);
+
+// Función para probar conexión con el backend
+const testBackendConnection = async () => {
+    for (const url of backendUrls) {
+        try {
+            const client = createApiClient(url);
+            const response = await client.get('/api/health');
+            console.log(`✅ Backend conectado en: ${url}`);
+            apiClient = client;
+            return true;
+        } catch (error) {
+            console.log(`❌ Backend no disponible en: ${url}`);
+        }
+    }
+    return false;
+};
+
+// Probar conexión al iniciar
+testBackendConnection().then(success => {
+    if (success) {
+        console.log('✅ Conexión con backend establecida');
+    } else {
+        console.log('❌ No se pudo conectar con el backend');
+    }
 });
 
 // Rutas del frontend
@@ -23,69 +66,65 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Proxy para las APIs de Python
-app.get('/api/meals/suggestions', async (req, res) => {
+// Middleware de proxy mejorado
+app.use('/api/*', async (req, res) => {
+    const originalUrl = req.originalUrl;
+    const apiPath = originalUrl.replace('/api', '/api');
+    
+    console.log(`Proxy: ${req.method} ${apiPath}`);
+    
     try {
-        const response = await apiClient.get('/api/meals/suggestions');
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error fetching suggestions:', error.message);
-        res.status(500).json({ 
-            error: 'Error al obtener sugerencias',
-            suggestions: [
-                "Pollo a la plancha con verduras",
-                "Salmón al horno con espárragos",
-                "Ensalada César con pollo"
-            ]
-        });
-    }
-});
+        const config = {
+            method: req.method,
+            url: apiPath,
+            data: req.body,
+            headers: {
+                'Content-Type': 'application/json',
+                ...req.headers
+            }
+        };
 
-app.get('/api/plans', async (req, res) => {
-    try {
-        const response = await apiClient.get('/api/plans');
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error fetching plans:', error.message);
-        res.status(500).json({ error: 'Error al obtener planes' });
-    }
-});
+        // Eliminar headers que pueden causar problemas
+        delete config.headers.host;
+        delete config.headers.origin;
+        delete config.headers.referer;
 
-app.post('/api/plans', async (req, res) => {
-    try {
-        const response = await apiClient.post('/api/plans', req.body);
-        res.json(response.data);
+        const response = await apiClient.request(config);
+        
+        res.status(response.status).json(response.data);
     } catch (error) {
-        console.error('Error creating plan:', error.message);
-        if (error.response?.status === 400) {
-            res.status(400).json({ error: 'Ya existe un plan para esta semana' });
+        console.error('Error en proxy:', error.message);
+        
+        if (error.response) {
+            // El backend respondió con error
+            res.status(error.response.status).json(error.response.data);
+        } else if (error.request) {
+            // No se pudo conectar al backend
+            res.status(503).json({ 
+                error: 'Backend no disponible',
+                message: 'El servidor Python no está respondiendo',
+                details: 'Verifica que python app.py esté ejecutándose en el puerto 8000'
+            });
         } else {
-            res.status(500).json({ error: 'Error al crear el plan' });
+            // Error en la configuración
+            res.status(500).json({ 
+                error: 'Error interno del proxy',
+                message: error.message 
+            });
         }
     }
 });
 
-app.put('/api/plans/:week', async (req, res) => {
-    try {
-        const response = await apiClient.put(`/api/plans/${req.params.week}`, req.body);
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error updating plan:', error.message);
-        res.status(500).json({ error: 'Error al actualizar el plan' });
-    }
-});
-
-app.delete('/api/plans/:week', async (req, res) => {
-    try {
-        const response = await apiClient.delete(`/api/plans/${req.params.week}`);
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error deleting plan:', error.message);
-        res.status(500).json({ error: 'Error al eliminar el plan' });
-    }
+// Ruta de salud del frontend
+app.get('/health', (req, res) => {
+    res.json({ 
+        status: 'healthy', 
+        service: 'Meal Planner Frontend',
+        timestamp: new Date().toISOString()
+    });
 });
 
 app.listen(PORT, () => {
-    console.log(`Frontend corriendo en http://localhost:${PORT}`);
-    console.log(`Conectado a API: ${API_URL}`);
+    console.log(`🎯 Frontend corriendo en http://localhost:${PORT}`);
+    console.log(`📡 Intentando conectar con backend en: ${backendUrls.join(', ')}`);
 });
