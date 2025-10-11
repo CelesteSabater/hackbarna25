@@ -1,7 +1,7 @@
 class MealPlanner {
     constructor() {
-        this.daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-        this.mealTimes = ['Desayuno', 'Almuerzo', 'Cena'];
+        this.daysOfWeek = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+        this.mealTimes = ['desayuno', 'almuerzo', 'cena'];
         
         // Configuración mejorada de la API
         this.apiUrl = this.getApiUrl();
@@ -112,9 +112,9 @@ class MealPlanner {
 
     getMealSuggestion(mealTime) {
         const suggestions = {
-            'Desayuno': 'Huevos revueltos con tostadas',
-            'Almuerzo': 'Pollo a la plancha con ensalada',
-            'Cena': 'Sopa de verduras'
+            'desayuno': 'Huevos revueltos con tostadas',
+            'almuerzo': 'Pollo a la plancha con ensalada',
+            'cena': 'Sopa de verduras'
         };
         return suggestions[mealTime] || 'Comida saludable';
     }

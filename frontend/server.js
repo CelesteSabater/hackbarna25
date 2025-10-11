@@ -66,6 +66,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/ai-planner', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'ai-planner.html'));
+});
+
 // Middleware de proxy mejorado
 app.use('/api/*', async (req, res) => {
     const originalUrl = req.originalUrl;
