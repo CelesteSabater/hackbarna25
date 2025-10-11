@@ -1,0 +1,27 @@
+*** python 3.8+
+
+   Python 3.13.5
+
+*** afegir api key FAL (no share):
+
+   setx FAL_KEY "<deleted>"
+
+
+*** afegir ngrok al PATH: (C:\Users\Joan\AppData\Local\Microsoft\WindowsApps\ngrok.exe)
+
+   $ngrokDir = "C:\Users\Joan\AppData\Local\Microsoft\WindowsApps"
+   $oldPath = [Environment]::GetEnvironmentVariable("PATH","User")
+   if ($oldPath -notlike "*$ngrokDir*") {
+     [Environment]::SetEnvironmentVariable("PATH", "$oldPath;$ngrokDir", "User")
+     Write-Host "Añadido $ngrokDir al PATH de usuario. Cierra y vuelve a abrir PowerShell para que surta efecto."
+   } else {
+     Write-Host "$ngrokDir ya estaba en PATH de usuario."
+   }
+
+*** registrar ngrok (no share):
+
+   ngrok config add-authtoken <deleted>
+
+*** exemple ngrok
+   finestra1: ngrok http 5000 
+   finestra2: $env:PUBLIC_URL = "<deleted>"
