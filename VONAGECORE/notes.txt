@@ -3,3 +3,5 @@ setx VONAGE_API_SECRET "<deleted>"
 setx VONAGE_FROM "<deleted>"
 setx OPENAI_API_KEY "<deleted>"
 setx OPENAI_MODEL "chatgpt5_mini"
+
+Chrome, no firefox
