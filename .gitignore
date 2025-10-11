@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env
+.env.*
+.Python
+
+# pip / build artefacts
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Static uploads / generated media
+static/uploads/
+*.mp3
+*.wav
+*.mp4
+
+# ngrok config / executables
+ngrok.exe
+.ngrok2/
+.config/ngrok/
+ngrok.yml
+
+# Dependency directories
+node_modules/
+
+# Executables / binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Coverage / testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Secrets
+credentials.json
+secret_*.*
+keys/
+*.pem
+*.key
