@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planeador de Comidas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Planeador de Comidas</h1>
+            <p>Organiza tus comidas de la semana y controla tus calorías</p>
+        </header>
+
+        <div class="meal-plan-form">
+            <h2>Crear Plan Semanal</h2>
+            <form id="mealPlanForm">
+                <div class="form-group">
+                    <label for="week">Semana:</label>
+                    <input type="week" id="week" required>
+                </div>
+                
+                <div class="days-list" id="daysList">
+                    <!-- Los días se generarán dinámicamente -->
+                </div>
+
+                <div class="calories-summary">
+                    <h3>Resumen de Calorías</h3>
+                    <div class="calories-total">
+                        <strong>Total Semanal: <span id="weeklyTotal">0</span> kcal</strong>
+                    </div>
+                    <div class="calories-daily">
+                        <strong>Promedio Diario: <span id="dailyAverage">0</span> kcal</strong>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary">Guardar Plan</button>
+            </form>
+        </div>
+
+        <div class="meal-list">
+            <h2>Mis Planes Guardados</h2>
+            <div id="savedPlans" class="saved-plans">
+                <!-- Los planes guardados aparecerán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

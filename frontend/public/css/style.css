@@ -1,0 +1,487 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.meal-plan-form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Lista de días */
+.days-list {
+    margin: 20px 0;
+}
+
+.day-item {
+    background: white;
+    border: 2px solid #e3f2fd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.day-header {
+    background: #e3f2fd;
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.day-header:hover {
+    background: #bbdefb;
+}
+
+.day-header h3 {
+    color: #1976d2;
+    margin: 0;
+}
+
+.day-calories {
+    background: #1976d2;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.day-content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
+.day-content.expanded {
+    padding: 20px;
+    max-height: 500px;
+}
+
+.meal-time {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #4caf50;
+}
+
+.meal-time:last-child {
+    margin-bottom: 0;
+}
+
+.meal-time label {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+}
+
+.meal-input-group {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 10px;
+    align-items: start;
+}
+
+.meal-input-group input {
+    margin-bottom: 0;
+}
+
+.calories-input {
+    text-align: center;
+}
+
+.calories-display {
+    background: #4caf50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.btn-suggestion {
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.btn-suggestion:hover {
+    background: #f57c00;
+}
+
+/* Resumen de calorías */
+.calories-summary {
+    background: #e8f5e8;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #4caf50;
+}
+
+.calories-summary h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.calories-total, .calories-daily {
+    margin: 10px 0;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.calories-total {
+    border-left: 4px solid #e74c3c;
+}
+
+.calories-daily {
+    border-left: 4px solid #3498db;
+}
+
+/* Botones */
+.btn-primary {
+    background: #3498db;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+/* Planes guardados */
+.meal-list {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.saved-plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.plan-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #27ae60;
+}
+
+.plan-card h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.plan-meals {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.plan-meals li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+}
+
+.plan-meals li:last-child {
+    border-bottom: none;
+}
+
+.plan-calories {
+    font-size: 12px;
+    color: #7f8c8d;
+    background: #ecf0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.plan-actions {
+    text-align: right;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.meal-calories-total {
+    background: #34495e;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .meal-input-group {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .meal-plan-form, .meal-list {
+        padding: 20px;
+    }
+    
+    .day-header {
+        padding: 12px 15px;
+    }
+    
+    .btn-suggestion {
+        width: 100%;
+    }
+}
+
+/* Animación para expandir/contraer */
+.day-content {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Icono para el header del día */
+.day-header::after {
+    content: '▶';
+    color: #1976d2;
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+.day-header.expanded::after {
+    transform: rotate(90deg);
+}
+
+/* Mejoras para los planes guardados */
+.plan-card {
+    background: white;
+    border: 2px solid #e3f2fd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.plan-card h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.plan-card h4 {
+    color: #34495e;
+    background: #ecf0f1;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin: 15px 0 10px 0;
+}
+
+.plan-meals {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.plan-meals li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plan-meals li:last-child {
+    border-bottom: none;
+}
+
+.meal-calories-total {
+    background: #2c3e50;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+/* Estilos mejorados para planes guardados */
+.plan-card {
+    background: white;
+    border: 2px solid #e3f2fd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.plan-header {
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.plan-header h3 {
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+}
+
+.plan-header small {
+    color: #7f8c8d;
+}
+
+.day-plan {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.day-plan h4 {
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.plan-meals {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.plan-meals li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.plan-meals li:last-child {
+    border-bottom: none;
+}
+
+.plan-calories {
+    background: #3498db;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+}
+
+.meal-calories-total {
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+.plan-actions {
+    text-align: right;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.plan-content {
+    max-height: 400px;
+    overflow-y: auto;
+}
