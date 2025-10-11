@@ -14,13 +14,71 @@
             <p>Describe tus preferencias y la IA creará un plan de comidas personalizado</p>
             <nav class="main-nav">
                 <a href="/" class="btn-nav">← Volver al Planeador Principal</a>
+                <a href="/health-tracker" class="btn-nav">📊 Mi Salud</a>
             </nav>
         </header>
 
         <div class="ai-planner-container">
+
+            <div id="recordingContainer" class="recording-container" style="display: none;">
+                <!-- Este contenedor se usará tanto para grabación como para reproducción -->
+                <div class="video-player-container" id="videoPlayerContainer" style="display: none;">
+                    <div class="video-analysis-header">
+                        <h3>🎬 Video Analizado</h3>
+                        <button id="closeVideoPlayer" class="btn-close">×</button>
+                    </div>
+                    <video id="analysisVideoPlayer" controls class="video-player">
+                        <source id="videoSource" src="" type="video/mp4">
+                        Tu navegador no soporta la reproducción de video.
+                    </video>
+                </div>
+                
+                <div class="video-preview-container" id="videoPreviewContainer">
+                    <video id="videoPreview" autoplay muted></video>
+                    <div class="recording-indicator" id="recordingIndicator">
+                        ● GRABANDO
+                    </div>
+                </div>
+                
+                <div class="recording-controls" id="recordingControls">
+                    <button id="stopRecording" class="btn-stop-recording">
+                        ■ Parar Grabación
+                    </button>
+                    <div class="recording-timer">
+                        ⏱️ <span id="recordingTimer">00:00</span>
+                    </div>
+                </div>
+                
+                <div class="recording-instructions" id="recordingInstructions">
+                    <p>✅ <strong>Ejemplo de lo que puedes decir en el video:</strong></p>
+                    <p>"Hola, quiero una dieta para perder peso. Actualmente peso 75kg y mi objetivo es 68kg. 
+                    Mido 170cm y tengo 30 años. Hago ejercicio 3 veces por semana. 
+                    Me gustaría un plan que incluya proteínas y verduras."</p>
+                </div>
+            </div>
+            
             <!-- Formulario de entrada para la IA -->
             <div class="ai-input-section">
                 <h2>📝 Describe tus necesidades</h2>
+                
+                <!-- Botón de video arriba del todo -->
+                <div class="camera-main-btn-container">
+                    <button type="button" id="mainCameraBtn" class="btn-camera-main">
+                        📹 Grabar Video de Descripción
+                    </button>
+                    <div class="camera-status" id="cameraStatus">
+                        Presiona el botón para grabar un video describiendo tus necesidades
+                    </div>
+                </div>
+
+                <!-- Información de salud (se llena automáticamente si existe perfil) -->
+                <div id="healthContext" class="health-context" style="display: none;">
+                    <h3>🏥 Tu Contexto de Salud</h3>
+                    <div class="health-summary" id="healthSummary">
+                        <!-- Se llena automáticamente con los datos del perfil -->
+                    </div>
+                </div>
+
                 <form id="aiPlannerForm" class="ai-form">
                     <div class="form-group">
                         <label for="dietType">Tipo de dieta:</label>

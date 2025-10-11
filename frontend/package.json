@@ -1,7 +1,7 @@
 {
   "name": "meal-planner-frontend",
   "version": "1.0.0",
-  "description": "Frontend para el planeador de comidas",
+  "description": "Vibe Shopping frontend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

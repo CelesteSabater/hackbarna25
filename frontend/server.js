@@ -119,13 +119,16 @@ app.use('/api/*', async (req, res) => {
     }
 });
 
-// Ruta de salud del frontend
 app.get('/health', (req, res) => {
     res.json({ 
         status: 'healthy', 
         service: 'Meal Planner Frontend',
         timestamp: new Date().toISOString()
     });
+});
+
+app.get('/health-tracker', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'health-tracker.html'));
 });
 
 app.listen(PORT, () => {
