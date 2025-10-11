@@ -1,264 +1,111 @@
-# 🛍️ VIBE SHOPPING — by Celeste, Xavi \& Joan 🚀
+VIBE SHOPPING — by Celeste, Xavi & Joan 🚀
+
+We are Team Adderit.  
+Intro: we are building an application that understands human language, observes your face, learns your habits, and speaks a natural-language purchase suggestion back to you — a new way to shop. This demo shows the core of that pipeline: capture (photo + text), synthesize voice, and produce a talking video prototype using VEED (via fal.ai).
+
+---
+
+🔧 Tech & Integrations (overview)
+- 1) n8n integration — TO-DO ⬜  
+- 2) Vonage integration — TO-DO ⬜  
+- 3) Norrsken integration — TO-DO ⬜  
+- 4) Glovo API / MCP integration — TO-DO ⬜  
+- 5) VEED / FAL API integration — implemented ✅
+
+---
+
+5) VEED / FAL API integration (what’s inside \`LIPCORE\`) 🎬
+
+This folder contains the working prototype that turns image + text into a talking video via fal.ai’s VEED Fabric model.
+
+What is included
+- \`app.py\` — Flask backend (core pipeline):
+  - Accepts an uploaded face image and input text.
+  - Generates TTS audio (gTTS).
+  - Exposes image + audio on a public URL (ngrok for local demos).
+  - Enqueues a VEED job on fal.ai (fabric-1.0), polls status, downloads the resulting MP4.
+  - Implements an ephemeral session cache so repeated identical requests are instant (saves cost/time).
+  - Supports both synchronous and asynchronous job flows (background thread + /status endpoint).
+- \`requirements.txt\` — Python dependencies (Flask, requests, gTTS; pydub optional).
+- \`start.ps1\` — Windows helper script: creates/activates venv, installs deps, tries to detect ngrok public URL, then starts the Flask app.
+- \`static/uploads/\` — uploaded images and generated mp3s (served so VEED can fetch them).
+- temp/ephemeral cache (inside a temp folder or \`static/cache/\`) — cached mp4 outputs for the session.
+- \`README.txt\` — short quick-run instructions.
+- \`create_project.ps1\` — (if present) scaffolding script used to generate the project during setup.
+
+Key behaviors & optimizations
+- Default render resolution set to \`480p\` to reduce cost and speed up renders.
+- Optional audio trimming (~8–10s) to reduce processing time/cost.
+- Ephemeral cache: same image+text in the same session returns a cached MP4 instantly (great for demos).
+- Asynchronous flow: create job, return job_id, client polls \`/status/<job_id>\`; final video appears automatically when ready.
+
+Important notes
+- fal.ai must be able to download your image/audio via public URL. For local demos use ngrok and set \`PUBLIC_URL\` to your ngrok HTTPS URL.
+- Each VEED generation consumes fal.ai credits — test with short text and 480p to save credits.
+- Do NOT commit \`FAL_KEY\` or other secrets to git. Use environment variables and \`.gitignore\`.
+
+Example payload sent to fal.ai
+\`\`\`json
+{
+  "image_url": "https://<your-ngrok>/static/uploads/<image>.jpg",
+  "audio_url": "https://<your-ngrok>/static/uploads/<audio>.mp3",
+  "resolution": "480p"
+}
+\`\`\`
+
+---
+
+▶ Quick demo (short)
+1. Start ngrok:  
+   \`ngrok http 5000\` → copy the HTTPS forwarding URL (e.g. \`https://abcd1234.ngrok-free.dev\`)  
+
+2. In a new shell, set session PUBLIC_URL:
+\`\`\`powershell
+$env:PUBLIC_URL = "https://abcd1234.ngrok-free.dev"
+\`\`\`
+
+3. Ensure \`FAL_KEY\` is available (environment variable).  
+4. Run app (first run will create venv and install deps):
+\`\`\`powershell
+.\start.ps1
+\`\`\`
+
+5. Open the ngrok URL in browser → upload a photo, enter text, press Play.
+- Browser can play immediate TTS for instant UX; final VEED-rendered video will appear when ready.  
+- Repeat identical requests during the session are fast via cache.
+
+---
+
+💡 Demo tips
+- Pre-render a few common suggestions for instant playback.  
+- Keep texts short (<8–10s) for faster, cheaper renders.  
+- Use browser SpeechSynthesis for live narration during the demo to create perceived real-time responsiveness.
+
+---
+
+⚠️ Costs & Safety
+- Monitor fal.ai usage (dashboard). Each job consumes credits.  
+- Revoke and rotate keys if accidentally committed. Never publish \`FAL_KEY\`.  
+- This prototype is for demo & prototyping; production needs async workers, rate-limits, security & storage policies.
+
+---
+
+✨ Next steps (we can implement)
+- Add n8n workflows to chain events and store results.  
+- Integrate Vonage to trigger videos via voice/SMS.  
+- Add Norrsken connectors for event flows.  
+- Integrate with Glovo MCP to produce persona-driven suggestions for delivery/upsell.  
+- Improve final voice quality using a paid TTS (ElevenLabs) or server-side advanced TTS (tradeoff: cost vs latency).
+
+---
+
+Built by Team Adderit — Celeste, Xavi & Joan.  
+A new way to shop: understand, observe, suggest — naturally.
+`;
 
-# 
+// Example: print to console
+console.log(README_MD);
 
-# We are Team Adderit.
-
-# We’re building an application that understands human language, observes your face, learns your habits, and speaks a natural-language purchase suggestion back to you — a new way to shop.
-
-# 
-
-# This demo showcases the core of that pipeline: capture (photo + text), synthesize voice, and produce a talking video prototype using VEED (via fal.ai).
-
-# 
-
-# 🔧 Tech \& Integrations (Overview)
-
-# 
-
-# &nbsp;n8n integration — TO-DO
-
-# 
-
-# &nbsp;Vonage integration — TO-DO
-
-# 
-
-# &nbsp;Norrsken integration — TO-DO
-
-# 
-
-# &nbsp;Glovo API / MCP integration — TO-DO
-
-# 
-
-# &nbsp;VEED / FAL API integration — Implemented ✅
-
-# 
-
-# 🎬 VEED / FAL API Integration (LIPCORE)
-
-# 
-
-# This module contains the working prototype that turns image + text → talking video using fal.ai’s VEED Fabric model.
-
-# 
-
-# 📂 What’s Included
-
-# 
-
-# app.py — Flask backend (core pipeline):
-
-# 
-
-# Accepts uploaded face image and input text.
-
-# 
-
-# Generates TTS audio (gTTS).
-
-# 
-
-# Exposes image + audio via a public URL (ngrok for local demos).
-
-# 
-
-# Enqueues a VEED job on fal.ai (fabric-1.0), polls status, and downloads the MP4.
-
-# 
-
-# Implements an ephemeral cache for instant repeated requests.
-
-# 
-
-# Supports both synchronous and asynchronous job flows (/status endpoint).
-
-# 
-
-# requirements.txt — Python dependencies (Flask, requests, gTTS, pydub optional).
-
-# 
-
-# start.ps1 — Windows helper script (creates venv, installs deps, detects ngrok URL, starts Flask).
-
-# 
-
-# static/uploads/ — Uploaded images and generated MP3s (served for VEED fetch).
-
-# 
-
-# static/cache/ — Cached MP4s for demo sessions.
-
-# 
-
-# README.txt — Quick-start instructions.
-
-# 
-
-# create\_project.ps1 — Optional project scaffolding script.
-
-# 
-
-# ⚙️ Key Behaviors \& Optimizations
-
-# 
-
-# Default render: 480p (faster \& cheaper).
-
-# 
-
-# Optional audio trimming (~8–10 s).
-
-# 
-
-# Ephemeral cache for repeated identical inputs.
-
-# 
-
-# Asynchronous flow via /status/<job\_id> polling.
-
-# 
-
-# 🧠 Notes
-
-# 
-
-# fal.ai must access your image/audio via a public URL → use ngrok for local demos.
-
-# 
-
-# Each VEED render consumes fal.ai credits — keep texts short \& use 480p.
-
-# 
-
-# Never commit your FAL\_KEY or secrets. Use environment variables \& .gitignore.
-
-# 
-
-# Example Payload
-
-# {
-
-# &nbsp; "image\_url": "https://<your-ngrok>/static/uploads/<image>.jpg",
-
-# &nbsp; "audio\_url": "https://<your-ngrok>/static/uploads/<audio>.mp3",
-
-# &nbsp; "resolution": "480p"
-
-# }
-
-# 
-
-# ▶ Quick Demo Guide
-
-# 
-
-# Start ngrok
-
-# 
-
-# ngrok http 5000
-
-# 
-
-# 
-
-# Copy the HTTPS URL (e.g. https://abcd1234.ngrok-free.dev).
-
-# 
-
-# Set the session PUBLIC\_URL
-
-# 
-
-# $env:PUBLIC\_URL = "https://abcd1234.ngrok-free.dev"
-
-# 
-
-# 
-
-# Ensure your FAL\_KEY is set as an environment variable.
-
-# 
-
-# Run the app
-
-# 
-
-# .\\start.ps1
-
-# 
-
-# 
-
-# Open the ngrok URL in your browser → upload a photo, enter text, and press Play.
-
-# 
-
-# ✨ Browser TTS gives instant feedback while VEED processes the final talking video.
-
-# Cached identical requests return instantly.
-
-# 
-
-# 💡 Demo Tips
-
-# 
-
-# Pre-render a few frequent suggestions for instant playback.
-
-# 
-
-# Keep texts short (<10 s) for faster, cheaper renders.
-
-# 
-
-# Combine with browser SpeechSynthesis for real-time narration feel.
-
-# 
-
-# ⚠️ Costs \& Safety
-
-# 
-
-# Monitor fal.ai credit usage.
-
-# 
-
-# Rotate/revoke API keys if exposed.
-
-# 
-
-# Prototype only — production requires async workers, rate limits \& secure storage.
-
-# 
-
-# 🚀 Next Steps
-
-# 
-
-# Integrate n8n workflows for event automation \& storage.
-
-# 
-
-# Connect Vonage for voice/SMS-triggered video suggestions.
-
-# 
-
-# Add Norrsken connectors for event-driven flows.
-
-# 
-
-# Integrate Glovo MCP for persona-based delivery/upsell suggestions.
-
-# 
-
-# Upgrade voice quality via ElevenLabs or advanced TTS (tradeoff: cost vs latency).
-
-# 
-
-# Built by Team Adderit — Celeste, Xavi \& Joan.
-
-# A new way to shop: understand, observe, suggest — naturally.
-
+// Example: write to file using Node.js (uncomment to use)
+// const fs = require('fs');
+// fs.writeFileSync('README.md', README_MD);
