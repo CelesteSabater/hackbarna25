@@ -6,8 +6,8 @@ Intro: we are building an application that understands human language, observes 
 ---
 
 🔧 Tech & Integrations (overview)
-- 1) n8n integration — TO-DO ✅  
-- 2) Glovo API / MCP integration — TO-DO ✅  
+- 1) n8n integration — implemented ✅
+- 2) Glovo API integration — implemented ✅
 - 3) VEED / FAL API integration — implemented ✅
 
 ---
