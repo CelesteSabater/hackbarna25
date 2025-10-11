@@ -1,0 +1,114 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>VONAGE PROJECT â€” Record / Upload (DEBUG)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #preview { border: 1px solid #ccc; display:block; margin-bottom: 10px; }
+    #out { white-space: pre-wrap; background:#f7f7f7; padding:10px; border-radius:6px; margin-top:10px; }
+    #transcript, #description { background:#fff; padding:10px; border:1px solid #ddd; min-height:40px; margin-bottom:10px; }
+  </style>
+</head>
+<body>
+  <h2>VONAGE PROJECT â€” Record or Upload (DEBUG)</h2>
+
+  <video id="preview" autoplay muted width="360" height="270"></video><br>
+  <button id="start">Start recording</button>
+  <button id="stop" disabled>Stop</button>
+  <input type="file" id="fileInput" accept="video/*"><br><br>
+
+  <input type="text" id="phone" placeholder="+34XXXXXXXXX (optional SMS)"><br><br>
+  <button id="sendFile">Send file</button>
+
+  <div><strong>Transcript</strong></div>
+  <div id="transcript"></div>
+
+  <div><strong>Health / Face Description</strong></div>
+  <div id="description"></div>
+
+  <div><strong>Debug / Raw JSON</strong></div>
+  <pre id="out"></pre>
+
+<script>
+let mediaRecorder, recordedBlobs;
+const preview = document.getElementById('preview');
+const startBtn = document.getElementById('start');
+const stopBtn = document.getElementById('stop');
+const out = document.getElementById('out');
+const transcriptDiv = document.getElementById('transcript');
+const descDiv = document.getElementById('description');
+
+startBtn.onclick = async () => {
+  recordedBlobs = [];
+  transcriptDiv.innerText = "";
+  descDiv.innerText = "";
+  out.innerText = "";
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+    preview.srcObject = stream;
+    let mimeType = '';
+    if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) mimeType = 'video/webm;codecs=vp9,opus';
+    else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) mimeType = 'video/webm;codecs=vp8,opus';
+    else if (MediaRecorder.isTypeSupported('video/webm')) mimeType = 'video/webm';
+    mediaRecorder = mimeType ? new MediaRecorder(stream, {mimeType}) : new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) recordedBlobs.push(e.data); console.log('chunk size', e.data ? e.data.size : 0); };
+    mediaRecorder.onstop = async () => {
+      let total = recordedBlobs.reduce((s,b)=>s+(b.size||0),0);
+      console.log('Total recorded bytes=', total);
+      if (total === 0) {
+        out.innerText = 'Recording produced 0 bytes. Try a different browser or check permissions.';
+        return;
+      }
+      const blob = new Blob(recordedBlobs, {type: mimeType || 'video/webm'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'debug_record.webm'; a.textContent = 'Download recorded clip (debug)';
+      document.body.appendChild(a);
+      const file = new File([blob], 'record.webm', {type: blob.type});
+      await uploadFileObject(file);
+    };
+    mediaRecorder.start();
+    startBtn.disabled = true; stopBtn.disabled = false;
+  } catch (err) {
+    out.innerText = 'Could not access camera/microphone: ' + err;
+  }
+};
+
+stopBtn.onclick = () => {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  preview.srcObject && preview.srcObject.getTracks().forEach(t => t.stop());
+  startBtn.disabled = false; stopBtn.disabled = true;
+};
+
+document.getElementById('sendFile').onclick = () => {
+  const f = document.getElementById('fileInput').files[0];
+  if (!f) { alert('Choose file or record first'); return; }
+  uploadFileObject(f);
+};
+
+async function uploadFileObject(file) {
+  const phone = document.getElementById('phone').value.trim();
+  const fd = new FormData();
+  fd.append('video', file, file.name);
+  if (phone) fd.append('phone', phone);
+  out.innerText = 'Uploading...';
+  try {
+    const resp = await fetch('/upload_video', { method: 'POST', body: fd });
+    const text = await resp.text();               // <-- read text
+    if (!resp.ok) {
+      out.innerText = 'Error response (text):\n' + text;
+      return;
+    }
+    // if ok, assume JSON
+    const j = JSON.parse(text);
+    transcriptDiv.innerText = j.transcript || '';
+    descDiv.innerText = j.health_description || '';
+    out.innerText = JSON.stringify(j.debug || j, null, 2);
+  } catch (e) {
+    out.innerText = 'Upload failed: ' + e;
+  }
+}
+</script>
+</body>
+</html>
