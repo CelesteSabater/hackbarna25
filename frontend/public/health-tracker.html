@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Salud - Meal Planner</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ai-planner.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Mi Seguimiento de Salud</h1>
+            <p>Controla tu peso y objetivos de salud</p>
+            <nav class="main-nav">
+                <a href="/" class="btn-nav">← Volver al Planeador Principal</a>
+                <a href="/ai-planner" class="btn-nav">🤖 Generar con IA</a>
+            </nav>
+        </header>
+
+        <div class="health-tracker-container">
+            <!-- Perfil de salud -->
+            <div class="health-profile-section">
+                <h2>👤 Mi Perfil de Salud</h2>
+                <form id="healthProfileForm" class="health-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentWeight">Peso Actual (kg):</label>
+                            <input type="number" id="currentWeight" class="form-control" step="0.1" min="30" max="200" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="targetWeight">Peso Objetivo (kg):</label>
+                            <input type="number" id="targetWeight" class="form-control" step="0.1" min="30" max="200" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="height">Altura (cm):</label>
+                            <input type="number" id="height" class="form-control" min="100" max="250" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Edad:</label>
+                            <input type="number" id="age" class="form-control" min="15" max="100" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Género:</label>
+                        <select id="gender" class="form-control" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="hombre">Hombre</option>
+                            <option value="mujer">Mujer</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="activityLevel">Nivel de Actividad:</label>
+                        <select id="activityLevel" class="form-control" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="sedentario">Sedentario (poco o ningún ejercicio)</option>
+                            <option value="ligero">Ligero (ejercicio 1-3 días/semana)</option>
+                            <option value="moderado">Moderado (ejercicio 3-5 días/semana)</option>
+                            <option value="activo">Activo (ejercicio 6-7 días/semana)</option>
+                            <option value="muy_activo">Muy activo (ejercicio intenso diario)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Condiciones de Salud (opcional):</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="healthConditions" value="diabetes"> Diabetes
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="healthConditions" value="hipertension"> Hipertensión
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="healthConditions" value="cardiaco"> Problemas cardíacos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="healthConditions" value="tiroides"> Problemas de tiroides
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="healthConditions" value="gluten"> Intolerancia al gluten
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="healthConditions" value="lactosa"> Intolerancia a la lactosa
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">💾 Guardar Perfil de Salud</button>
+                </form>
+            </div>
+
+            <!-- Check-in de peso -->
+            <div class="checkin-section">
+                <h2>⚖️ Check-in de Peso</h2>
+                <form id="weightCheckinForm" class="checkin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkinWeight">Peso Actual (kg):</label>
+                            <input type="number" id="checkinWeight" class="form-control" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinDate">Fecha:</label>
+                            <input type="date" id="checkinDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkinNotes">Notas (opcional):</label>
+                        <textarea id="checkinNotes" class="form-control" rows="2" placeholder="Cómo te sientes, cambios, etc..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-success">✅ Registrar Check-in</button>
+                </form>
+            </div>
+
+            <!-- Historial de check-ins -->
+            <div class="history-section">
+                <h2>📈 Historial de Progreso</h2>
+                <div id="checkinsHistory" class="checkins-history">
+                    <!-- El historial se cargará aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/health-tracker.js"></script>
+</body>
+</html>

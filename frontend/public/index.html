@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Shopping</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Vibe Shopping</h1>
+            <p>Organiza tus comidas de la semana y controla tus calorías</p>
+            <nav class="main-nav">
+                <a href="/ai-planner" class="btn-nav">🤖 Generar con IA</a>
+                <a href="/health-tracker" class="btn-nav">📊 Mi Salud</a>
+            </nav>
+        </header>
+
+    <div class="meal-plan-form">
+        <h2>Crear Plan Semanal</h2>
+        <form id="mealPlanForm">
+            <div class="form-group">
+                <label for="week">Semana:</label>
+                <input type="week" id="week" required>
+            </div>
+            
+            <!-- Este es el contenedor donde se insertará el mensaje de edición -->
+            <div id="editMessageContainer"></div>
+            
+            <div class="days-list" id="daysList">
+                <!-- Los días se generarán dinámicamente -->
+            </div>
+
+            <div class="calories-summary">
+                <h3>Resumen de Calorías</h3>
+                <div class="calories-total">
+                    <strong>Total Semanal: <span id="weeklyTotal">0</span> kcal</strong>
+                </div>
+                <div class="calories-daily">
+                    <strong>Promedio Diario: <span id="dailyAverage">0</span> kcal</strong>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary">Guardar Plan</button>
+        </form>
+    </div>
+
+
+        <div class="meal-list">
+            <div class="meal-list-header">
+                <h2>Mis Planes Guardados</h2>
+                <button onclick="mealPlanner.reloadPlans()" class="btn-reload">
+                    🔄 Recargar Planes
+                </button>
+            </div>
+            <div id="savedPlans" class="saved-plans">
+                <!-- Los planes guardados aparecerán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

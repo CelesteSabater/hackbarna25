@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Planes con IA - Meal Planner</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ai-planner.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Generador de Planes con IA</h1>
+            <p>Describe tus preferencias y la IA creará un plan de comidas personalizado</p>
+            <nav class="main-nav">
+                <a href="/" class="btn-nav">← Volver al Planeador Principal</a>
+                <a href="/health-tracker" class="btn-nav">📊 Mi Salud</a>
+            </nav>
+        </header>
+
+        <div class="ai-planner-container">
+            
+            <!-- Formulario de entrada para la IA -->
+            <div class="ai-input-section">
+                <h2>📝 Describe tus necesidades</h2>
+                
+                <div class="voice-input-container">
+                    <button id="startVoiceInput" class="btn-camera-main">🎤 Hablar para Describir</button>
+                    <br><br>
+                    <textarea 
+                        id="input-preferences" 
+                        class="form-control" 
+                        rows="4" 
+                        placeholder="Ej: Me gusta la comida picante, ... (Aparecerá aquí tu entrada de voz)"
+                    ></textarea>
+                </div>
+
+                <!-- Información de salud (se llena automáticamente si existe perfil) -->
+                <div id="healthContext" class="health-context" style="display: none;">
+                    <h3>🏥 Tu Contexto de Salud</h3>
+                    <div class="health-summary" id="healthSummary">
+                        <!-- Se llena automáticamente con los datos del perfil -->
+                    </div>
+                </div>
+
+                <form id="aiPlannerForm" class="ai-form">
+                    <div class="form-group">
+                        <label for="dietType">Tipo de dieta:</label>
+                        <select id="dietType" class="form-control">
+                            <option value="">Cualquier dieta</option>
+                            <option value="vegetariana">Vegetariana</option>
+                            <option value="vegana">Vegana</option>
+                            <option value="sin-gluten">Sin gluten</option>
+                            <option value="baja-carbohidratos">Baja en carbohidratos</option>
+                            <option value="keto">Keto</option>
+                            <option value="mediterranea">Mediterránea</option>
+                            <option value="pescetariana">Pescetariana</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="calorieTarget">Objetivo de calorías diarias:</label>
+                        <select id="calorieTarget" class="form-control">
+                            <option value="">No especificado</option>
+                            <option value="1200-1500">1200-1500 kcal (Pérdida de peso)</option>
+                            <option value="1500-1800">1500-1800 kcal (Mantenimiento ligero)</option>
+                            <option value="1800-2200">1800-2200 kcal (Mantenimiento)</option>
+                            <option value="2200-2500">2200-2500 kcal (Aumento muscular)</option>
+                            <option value="2500-3000">2500-3000 kcal (Alta actividad)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allergies">Alergias o restricciones:</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="allergies" value="lactosa"> Sin lactosa
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="allergies" value="frutos-secos"> Sin frutos secos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="allergies" value="mariscos"> Sin mariscos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="allergies" value="huevos"> Sin huevos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="allergies" value="soja"> Sin soja
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferences">Preferencias alimentarias:</label>
+                        <textarea 
+                            id="preferences" 
+                            class="form-control" 
+                            rows="4" 
+                            placeholder="Ej: Me gusta la comida picante, prefiero pescado sobre carne, no me gustan las lentejas..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goals">Objetivos específicos:</label>
+                        <textarea 
+                            id="goals" 
+                            class="form-control" 
+                            rows="3" 
+                            placeholder="Ej: Perder 2kg este mes, aumentar masa muscular, mejorar digestión..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="week">Semana a planificar:</label>
+                        <input type="week" id="week" class="form-control" required>
+                    </div>
+            <button type="submit" class="btn-primary btn-generate">
+                        🪄 Generar Plan con IA
+                    </button>
+                </form>
+            </div>
+
+            <!-- Nuevo contenedor para el vídeo -->
+            <div class="video-player-container" id="videoPlayerContainer" style="display: none;">
+                <h3>🎬 Ver Resultados en Video</h3>
+                <video id="videoOutput" class="video-player" controls>
+                    <!-- Inicialmente, no hay vídeo, se establecerá dinámicamente -->
+                    <source id="videoSource" src="" type="video/mp4">
+                    Tu navegador no soporta la reproducción de video.
+                </video>
+            </div>
+
+            <div class="ai-result-section" id="aiResultSection" style="display: none;">
+                <h2>📋 Plan Generado por IA</h2>
+                <div class="ai-plan-preview" id="aiPlanPreview">
+                    <!-- El plan generado aparecerá aquí -->
+                </div>
+                <div class="ai-actions">
+                    <button id="saveAiPlan" class="btn-success">💾 Guardar Plan</button>
+                    <button id="regeneratePlan" class="btn-secondary">🔄 Regenerar</button>
+                    <button id="modifyPlan" class="btn-edit">✏️ Modificar Manualmente</button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="ai-loading" id="aiLoading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>La IA está creando tu plan personalizado...</p>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Planes generados recientemente -->
+        <div class="recent-plans">
+            <h2>📚 Planes Generados Recientemente</h2>
+            <div id="recentAiPlans" class="recent-plans-grid">
+                <!-- Los planes generados recientemente aparecerán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/ai-planner.js"></script>
+</body>
+</html>

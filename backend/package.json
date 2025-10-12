@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@vonage/client-sdk-video": "^2.31.0"
+  }
+}
