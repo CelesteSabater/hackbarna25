@@ -12,7 +12,11 @@ Intro: we are building an application that understands human language, observes 
 
 ---
 
-1) n8n integration - implemented ✅
+1) n8n integration and Glovo ✅
+
+![Main Workflow](backend/n8n/hungry.png)
+
+![Data Loading](backend/n8n/load.png)
 
 🧠 System Overview: Glovo Product Intelligence Assistant
 1. Introduction
