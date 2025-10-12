@@ -534,21 +534,6 @@
     color: #dc3545;
 }
 
-.recording-instructions {
-    background: #e7f3ff;
-    border: 1px solid #b3d9ff;
-    border-radius: 8px;
-    padding: 12px;
-    margin-top: 15px;
-    text-align: left;
-}
-
-.recording-instructions p {
-    margin: 5px 0;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
 /* Planes recientes */
 .recent-plans {
     background: white;
@@ -1358,5 +1343,13 @@
 .analysis-item .value {
     color: #28a745;
     font-weight: 600;
+}
+.voice-input-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.voice-input-container button {
+    margin-bottom: 10px;
 }
 }

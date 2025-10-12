@@ -1504,6 +1504,61 @@ class AIPlanner {
     }
 }
 
+document.getElementById('startVoiceInput').addEventListener('click', function() {
+    const preferencesInput = document.getElementById('preferences');
+    
+    // Verificar si el navegador soporta la API de reconocimiento de voz
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'es-ES'; // Configura el idioma a español
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            preferencesInput.value += (preferencesInput.value ? ' ' : '') + transcript; // Agrega la transcripción al texto existente
+            console.log('Transcripción: ', transcript);
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Error: ', event.error);
+        };
+
+        recognition.onend = function() {
+            console.log('Reconocimiento de voz detenido.');
+        };
+    } else {
+        alert("Lo siento, tu navegador no soporta la funcionalidad de reconocimiento de voz.");
+    }
+});
+
+document.getElementById('aiPlannerForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evitar el envío convencional del formulario
+
+    // Aquí se insertaría la lógica para generar el plan
+    setTimeout(() => {
+        // Mostrar la sección para el plan generado
+        document.getElementById('aiResultSection').style.display = 'block';
+
+        // Llama a la función useTestVideo para obtener la URL del vídeo
+        const videoSource = document.getElementById('videoSource');
+        useTestVideo();
+        videoSource.src = this.testVideoUrl;
+        const videoOutput = document.getElementById('videoOutput');
+        
+        // Mostrar el contenedor de vídeo
+        document.getElementById('videoPlayerContainer').style.display = 'block';
+        videoOutput.load(); // Cargar el nuevo vídeo
+
+        // Reproducir el vídeo automáticamente
+        videoOutput.play().catch(error => {
+            console.error("Error al intentar reproducir el vídeo:", error);
+        });
+    }, 1000); // Simulación de un retraso de 1 segundo para la generación del plan
+});
+
 // Inicializar la aplicación
 let aiPlanner;
 
