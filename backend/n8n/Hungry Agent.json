@@ -34,7 +34,7 @@
       "typeVersion": 2.1,
       "position": [
         -832,
-        752
+        856
       ],
       "id": "50840675-5312-4bab-99f2-b0b911d94a19",
       "name": "Webhook",
@@ -48,8 +48,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        16,
-        752
+        -144,
+        856
       ],
       "id": "5e984fb4-44c8-403c-91c6-9aa85e9dfd23",
       "name": "Respond to Webhook"
@@ -65,7 +65,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        -560,
+        -552,
         752
       ],
       "id": "4266c025-8a88-4688-924e-4762337306c0",
@@ -86,23 +86,6 @@
       "name": "Simple Memory"
     },
     {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        -272,
-        1184
-      ],
-      "id": "7a509394-1cd6-4093-b586-e25fbf82471c",
-      "name": "Embeddings Google Gemini1",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "ir2qNBBs6jJI7HbH",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
       "parameters": {
         "mode": "retrieve-as-tool",
         "toolDescription": "Get information about stores and products",
@@ -117,8 +100,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
       "position": [
-        -352,
-        976
+        -624,
+        1184
       ],
       "id": "e9f588c4-6f85-47be-ba8d-d33c64f429a7",
       "name": "Get information about stores and products",
@@ -126,6 +109,48 @@
         "pineconeApi": {
           "id": "lRfJCYlDr2bFQpc1",
           "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -832,
+        1184
+      ],
+      "id": "f37a3411-0274-4938-8a2e-baba8abf11b2",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "O1udLZPZdcieXp2e",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://prod-1-data.ke.pinecone.io/mcp/assistants/olakease",
+        "authentication": "bearerAuth",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        976
+      ],
+      "id": "221d3fba-7b95-4b11-86bd-44102fe35d3d",
+      "name": "MCP Client",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "Lg095qqN0tCuAgrk",
+          "name": "Pinecone"
         }
       }
     }
@@ -176,7 +201,12 @@
         ]
       ]
     },
-    "Embeddings Google Gemini1": {
+    "Get information about stores and products": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Embeddings OpenAI": {
       "ai_embedding": [
         [
           {
@@ -187,7 +217,7 @@
         ]
       ]
     },
-    "Get information about stores and products": {
+    "MCP Client": {
       "ai_tool": [
         [
           {
@@ -205,7 +235,7 @@
     "executionOrder": "v0",
     "availableInMCP": false
   },
-  "versionId": "37c9de64-64a2-4596-ba31-75b7ef56b98b",
+  "versionId": "b3adb17a-1ff7-4d9a-9283-5f39e9493a1d",
   "meta": {
     "templateId": "6270",
     "templateCredsSetupCompleted": true,
