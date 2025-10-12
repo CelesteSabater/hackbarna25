@@ -26,8 +26,9 @@
                 
                 <div class="voice-input-container">
                     <button id="startVoiceInput" class="btn-camera-main">🎤 Hablar para Describir</button>
+                    <br><br>
                     <textarea 
-                        id="preferences" 
+                        id="input-preferences" 
                         class="form-control" 
                         rows="4" 
                         placeholder="Ej: Me gusta la comida picante, ... (Aparecerá aquí tu entrada de voz)"
@@ -114,8 +115,7 @@
                         <label for="week">Semana a planificar:</label>
                         <input type="week" id="week" class="form-control" required>
                     </div>
-
-                    <button type="submit" class="btn-primary btn-generate">
+            <button type="submit" class="btn-primary btn-generate">
                         🪄 Generar Plan con IA
                     </button>
                 </form>
@@ -131,19 +131,6 @@
                 </video>
             </div>
 
-            <div class="ai-result-section" id="aiResultSection" style="display: none;">
-                <h2>📋 Plan Generado por IA</h2>
-                <div class="ai-plan-preview" id="aiPlanPreview">
-                    <!-- El plan generado aparecerá aquí -->
-                </div>
-                <div class="ai-actions">
-                    <button id="saveAiPlan" class="btn-success">💾 Guardar Plan</button>
-                    <button id="regeneratePlan" class="btn-secondary">🔄 Regenerar</button>
-                    <button id="modifyPlan" class="btn-edit">✏️ Modificar Manualmente</button>
-                </div>
-            </div>
-
-            <!-- Resultado de la IA -->
             <div class="ai-result-section" id="aiResultSection" style="display: none;">
                 <h2>📋 Plan Generado por IA</h2>
                 <div class="ai-plan-preview" id="aiPlanPreview">

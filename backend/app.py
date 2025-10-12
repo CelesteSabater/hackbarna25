@@ -767,42 +767,79 @@ async def analyze_video(
 
 # Funciones auxiliares
 async def generate_ai_plan_simulated(request: AIPlanRequest) -> AIPlanResponse:
-    """Simular generación de plan por IA"""
+    """Generar siempre el mismo plan específico para un solo día, otros vacíos"""
     import asyncio
     await asyncio.sleep(2)
     
-    diet_type = request.dietType or "equilibrada"
-    if diet_type not in MEAL_POOL:
-        diet_type = "equilibrada"
-    
-    meal_pool = MEAL_POOL[diet_type]
-    days_of_week = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]
-    meal_times = ["desayuno", "almuerzo", "cena"]
-    
-    meals = {}
-    total_calories = 0
-    
-    for day in days_of_week:
-        meals[day] = {}
-        for meal_time in meal_times:
-            available_meals = meal_pool.get(meal_time, [])
-            selected_meal = available_meals[0] if available_meals else {
-                "name": f"Comida {diet_type} - {meal_time}", 
-                "calories": 300,
-                "protein": 15,
+    # Plan fijo que siempre se generará - SOLO LUNES, otros días vacíos
+    fixed_meals = {
+        "lunes": {
+            "desayuno": {
+                "name": "Scrambled eggs with spinach, cherry tomatoes, and a sprinkle of chili flakes. One slice of whole-grain toast with a side of avocado.",
+                "calories": 420,
+                "protein": 25,
                 "carbs": 35,
-                "fat": 10
+                "fat": 18
+            },
+            "almuerzo": {
+                "name": "Grilled chicken breast over a large quinoa salad with cucumber, bell peppers, and a spicy lemon-tahini dressing.",
+                "calories": 480,
+                "protein": 35,
+                "carbs": 45,
+                "fat": 15
+            },
+            "cena": {
+                "name": "Baked salmon with a harissa glaze. Steamed green beans and a side of roasted sweet potato.",
+                "calories": 520,
+                "protein": 30,
+                "carbs": 40,
+                "fat": 22
             }
-            
-            meals[day][meal_time] = selected_meal
-            total_calories += selected_meal["calories"]
+        },
+        # Los demás días vacíos
+        "martes": {
+            "desayuno": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "almuerzo": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "cena": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+        },
+        "miercoles": {
+            "desayuno": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "almuerzo": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "cena": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+        },
+        "jueves": {
+            "desayuno": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "almuerzo": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "cena": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+        },
+        "viernes": {
+            "desayuno": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "almuerzo": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "cena": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+        },
+        "sabado": {
+            "desayuno": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "almuerzo": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "cena": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+        },
+        "domingo": {
+            "desayuno": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "almuerzo": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0},
+            "cena": {"name": "", "calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+        }
+    }
+    
+    # Calcular total de calorías solo para lunes
+    total_calories = 0
+    for meal_time in fixed_meals["lunes"]:
+        total_calories += fixed_meals["lunes"][meal_time]["calories"]
     
     return AIPlanResponse(
         id=str(uuid.uuid4()),
         week=request.week,
-        dietType=diet_type,
-        calorieTarget=request.calorieTarget or "1800-2200",
-        meals=meals,
+        dietType="mediterranea",
+        calorieTarget="1400-1600",
+        meals=fixed_meals,
         totalCalories=total_calories,
         generatedAt=datetime.now().isoformat(),
         requestData=request.dict()
@@ -919,19 +956,29 @@ async def save_ai_plan_to_db(ai_plan: AIPlanResponse) -> str:
         raise e
 
 def convert_ai_to_normal_plan(ai_plan: dict) -> MealPlan:
-    """Convertir plan de IA a formato de plan normal"""
+    """Convertir plan de IA a formato de plan normal - Mantener días vacíos"""
     meals = {}
     meal_details = {}
     
     days_of_week = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]
     meal_times = ["desayuno", "almuerzo", "cena"]
     
+    total_calories = 0
+    
     for day in days_of_week:
         meals[day] = {}
         meal_details[day] = {}
         
         for meal_time in meal_times:
-            ai_meal = ai_plan["meals"][day][meal_time]
+            # Usar las comidas del plan de IA (pueden estar vacías)
+            ai_meal = ai_plan["meals"].get(day, {}).get(meal_time, {
+                "name": "",
+                "calories": 0,
+                "protein": 0,
+                "carbs": 0,
+                "fat": 0
+            })
+            
             meals[day][meal_time] = ai_meal["name"]
             meal_details[day][meal_time] = {
                 "name": ai_meal["name"],
@@ -940,12 +987,14 @@ def convert_ai_to_normal_plan(ai_plan: dict) -> MealPlan:
                 "carbs": ai_meal.get("carbs", 0),
                 "fat": ai_meal.get("fat", 0)
             }
+            
+            total_calories += ai_meal["calories"]
     
     return MealPlan(
         week=ai_plan["week"],
         meals=meals,
         mealDetails=meal_details,
-        totalCalories=ai_plan["totalCalories"]
+        totalCalories=total_calories
     )
 
 # Endpoints de debug

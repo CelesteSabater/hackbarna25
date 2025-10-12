@@ -1344,12 +1344,104 @@
     color: #28a745;
     font-weight: 600;
 }
-.voice-input-container {
-    margin: 20px 0;
-    text-align: center;
-}
 
 .voice-input-container button {
     margin-bottom: 10px;
 }
+.voice-input-container {
+    background: #f8f9fa; /* Fondo claro para la sección */
+    border: 1px solid #ced4da; /* Borde gris claro */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interior */
+    margin: 20px 0; /* Margen vertical */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+/* Estilos para el video fijo */
+.video-analysis-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 0;
+    margin: 25px 0;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    overflow: hidden;
+}
+
+.video-analysis-header {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.video-analysis-header h2 {
+    color: white;
+    margin: 0;
+    font-size: 1.3em;
+}
+
+/* Estilos para el panel de voz adicional */
+.voice-input-container {
+    background: #f8f9fa;
+    border: 2px dashed #667eea;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.voice-input-header {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+#additionalVoiceText {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 80px;
+}
+.voice-input-header {
+    font-size: 1.5em; /* Tamaño de fuente más grande */
+    color: #343a40; /* Color del texto */
+    margin-bottom: 10px; /* Margen debajo del encabezado */
+}
+
+.btn-voice-input {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); /* Gradiente de color azul */
+    color: white; /* Color del texto en blanco */
+    border: none; /* Sin borde */
+    border-radius: 50px; /* Bordes redondeados */
+    padding: 12px 24px; /* Espaciado interior */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Puntero en forma de mano */
+    transition: background 0.3s ease; /* Transición suave del fondo */
+    display: inline-block; /* Mostrar como un bloque en línea */
+}
+
+.btn-voice-input:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%); /* Cambio de color al pasar el ratón */
+}
+
+.voice-textarea {
+    margin-top: 10px; /* Margen arriba del textarea */
+    border: 1px solid #ced4da; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    padding: 10px; /* Espaciado interior */
+    resize: vertical; /* Permitir redimensionar solo verticalmente */
+}
+
+.voice-textarea:focus {
+    outline: none; /* Sin borde de enfoque */
+    border-color: #007bff; /* Color de borde azul cuando está enfocado */
+}
+
 }

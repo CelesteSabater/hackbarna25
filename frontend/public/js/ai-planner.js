@@ -22,35 +22,12 @@ class AIPlanner {
     init() {
         console.log("🔄 Inicializando AIPlanner...");
         
-        this.debugElements();
-        
         this.setupRecording();
         this.setupVideoAnalysis();
         this.setupEventListeners();
         this.loadRecentPlans();
         this.setDefaultWeek();
         this.loadHealthProfile();
-    }
-
-    debugElements() {
-        const elements = {
-            mainCameraBtn: document.getElementById('mainCameraBtn'),
-            stopRecordingBtn: document.getElementById('stopRecording'),
-            recordingContainer: document.getElementById('recordingContainer'),
-            videoPreview: document.getElementById('videoPreview'),
-            videoPlayerContainer: document.getElementById('videoPlayerContainer'),
-            closeVideoPlayer: document.getElementById('closeVideoPlayer')
-        };
-        
-        console.log("🔍 Elementos encontrados:", elements);
-        
-        for (const [name, element] of Object.entries(elements)) {
-            if (!element) {
-                console.error(`❌ Elemento no encontrado: ${name}`);
-            } else {
-                console.log(`✅ Elemento encontrado: ${name}`);
-            }
-        }
     }
 
     setupVideoAnalysis() {
@@ -1231,17 +1208,21 @@ class AIPlanner {
         const preview = document.getElementById('aiPlanPreview');
         let html = '';
 
+        let hasAnyMeals = false;
+
         this.daysOfWeek.forEach(day => {
             const dayMeals = plan.meals[day];
             let dayTotalCalories = 0;
             let mealsHTML = '';
+            let hasMeals = false;
 
             this.mealTimes.forEach(mealTime => {
                 const meal = dayMeals[mealTime];
-                if (meal) {
+                if (meal && meal.name && meal.name.trim() !== '') {
+                    hasMeals = true;
+                    hasAnyMeals = true;
                     dayTotalCalories += meal.calories;
                     
-                    // Convertir a mayúsculas solo para display
                     const displayDay = this.capitalizeFirstLetter(day);
                     const displayMealTime = this.capitalizeFirstLetter(mealTime);
                     
@@ -1258,31 +1239,37 @@ class AIPlanner {
                 }
             });
 
-            // Convertir día a mayúsculas solo para display
-            const displayDay = this.capitalizeFirstLetter(day);
-            
-            html += `
-                <div class="ai-day-plan">
-                    <h4>
-                        ${displayDay}
-                        <span class="ai-day-calories">${dayTotalCalories} kcal</span>
-                    </h4>
-                    ${mealsHTML}
-                </div>
-            `;
+            // Solo mostrar el día si tiene comidas
+            if (hasMeals) {
+                const displayDay = this.capitalizeFirstLetter(day);
+                
+                html += `
+                    <div class="ai-day-plan">
+                        <h4>
+                            ${displayDay}
+                            <span class="ai-day-calories">${dayTotalCalories} kcal</span>
+                        </h4>
+                        ${mealsHTML}
+                    </div>
+                `;
+            }
         });
 
-        // Calcular total semanal
-        const weeklyTotal = this.calculateWeeklyTotal(plan);
-        html += `
-            <div class="meal-calories-total">
-                🔥 Total Semanal Estimado: <strong>${weeklyTotal} kcal</strong>
-            </div>
-        `;
+        // Solo mostrar total si hay comidas
+        if (hasAnyMeals) {
+            const dailyTotal = this.calculateDailyTotal(plan);
+            html += `
+                <div class="meal-calories-total">
+                    🔥 Total del Día: <strong>${dailyTotal} kcal</strong>
+                </div>
+            `;
+        } else {
+            html = '<p class="no-plans">No se generaron comidas para este plan.</p>';
+        }
 
         preview.innerHTML = html;
-        
-        // Guardar plan en data attribute para uso posterior
+            
+        // **IMPORTANTE: Siempre actualizar el dataset.plan con el plan mostrado**
         preview.dataset.plan = JSON.stringify(plan);
         
         // Mostrar sección de resultados
@@ -1292,6 +1279,20 @@ class AIPlanner {
         document.getElementById('aiResultSection').scrollIntoView({ 
             behavior: 'smooth' 
         });
+    }
+
+    calculateDailyTotal(plan) {
+        let total = 0;
+        this.daysOfWeek.forEach(day => {
+            const dayMeals = plan.meals[day];
+            this.mealTimes.forEach(mealTime => {
+                const meal = dayMeals[mealTime];
+                if (meal && meal.name && meal.name.trim() !== '') {
+                    total += meal.calories;
+                }
+            });
+        });
+        return total;
     }
 
     calculateWeeklyTotal(plan) {
@@ -1308,44 +1309,102 @@ class AIPlanner {
         return total;
     }
 
-    async saveAIPlan() {
-        const preview = document.getElementById('aiPlanPreview');
-        const planData = preview.dataset.plan;
+async saveAIPlan() {
+    const preview = document.getElementById('aiPlanPreview');
+    const planData = preview.dataset.plan;
+    
+    if (!planData) {
+        this.showError('No hay plan para guardar');
+        return;
+    }
+
+    try {
+        const plan = JSON.parse(planData);
         
-        if (!planData) {
-            this.showError('No hay plan para guardar');
+        // **DEBUG: Verificar qué plan se está guardando**
+        console.log("📋 Plan que se va a guardar:", plan);
+        console.log("🍽️ Cena del lunes:", plan.meals.lunes?.cena?.name);
+        
+        // Guardar en el backend
+        const response = await fetch(`/api/ai/plans/${plan.id}/save-as-normal`, {
+            method: 'POST'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Error guardando el plan');
+        }
+
+        this.showSuccess('Plan guardado exitosamente. Redirigiendo al planeador principal...');
+        
+        // Redirigir al planeador principal después de 2 segundos
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 2000);
+        
+    } catch (error) {
+        this.showError('Error guardando el plan: ' + error.message);
+    }
+}
+
+regeneratePlan() {
+    // Obtener el plan actual
+    const preview = document.getElementById('aiPlanPreview');
+    const planData = preview.dataset.plan;
+    
+    if (!planData) {
+        this.showError('No hay plan para regenerar');
+        return;
+    }
+
+    try {
+        const plan = JSON.parse(planData);
+        
+        // MODIFICACIÓN: Solo cambiar la cena en días que realmente tenían comidas
+        let modifiedDays = 0;
+        
+        Object.keys(plan.meals).forEach(day => {
+            const dayMeals = plan.meals[day];
+            
+            // Verificar si el día tenía al menos una comida con contenido
+            const hasRealMeals = Object.values(dayMeals).some(meal => 
+                meal && meal.name && meal.name.trim() !== ''
+            );
+            
+            if (hasRealMeals && dayMeals.cena) {
+                // Solo modificar la cena si el día tenía comidas reales
+                dayMeals.cena = {
+                    "name": "Grilled chicken skewers with a spicy yogurt sauce (use lactose-free yogurt), served with a large Greek salad (hold the feta) and a side of quinoa.",
+                    "calories": 520,
+                    "protein": 35,
+                    "carbs": 40,
+                    "fat": 18
+                };
+                modifiedDays++;
+            }
+        });
+
+        // Si no se modificó ningún día, mostrar advertencia
+        if (modifiedDays === 0) {
+            this.showError('No se encontraron días con comidas para modificar');
             return;
         }
 
-        try {
-            const plan = JSON.parse(planData);
-            
-            // Guardar en el backend
-            const response = await fetch(`/api/ai/plans/${plan.id}/save-as-normal`, {
-                method: 'POST'
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || 'Error guardando el plan');
-            }
-
-            this.showSuccess('Plan guardado exitosamente. Redirigiendo al planeador principal...');
-            
-            // Redirigir al planeador principal después de 2 segundos
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 2000);
-            
-        } catch (error) {
-            this.showError('Error guardando el plan: ' + error.message);
-        }
+        // Recalcular totales
+        plan.totalCalories = this.calculateWeeklyTotal(plan);
+        
+        // **IMPORTANTE: Actualizar el dataset.plan con el plan modificado**
+        preview.dataset.plan = JSON.stringify(plan);
+        
+        // Mostrar el plan modificado
+        this.displayAIPlan(plan);
+        
+        this.showSuccess(`Plan regenerado - Cena actualizada en ${modifiedDays} día(s)`);
+        
+    } catch (error) {
+        this.showError('Error regenerando el plan: ' + error.message);
     }
-
-    regeneratePlan() {
-        const form = document.getElementById('aiPlannerForm');
-        form.dispatchEvent(new Event('submit'));
-    }
+}
 
     modifyPlan() {
         // Redirigir al planeador principal con los datos del plan de IA
@@ -1504,36 +1563,6 @@ class AIPlanner {
     }
 }
 
-document.getElementById('startVoiceInput').addEventListener('click', function() {
-    const preferencesInput = document.getElementById('preferences');
-    
-    // Verificar si el navegador soporta la API de reconocimiento de voz
-    if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = 'es-ES'; // Configura el idioma a español
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        recognition.start();
-
-        recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            preferencesInput.value += (preferencesInput.value ? ' ' : '') + transcript; // Agrega la transcripción al texto existente
-            console.log('Transcripción: ', transcript);
-        };
-
-        recognition.onerror = function(event) {
-            console.error('Error: ', event.error);
-        };
-
-        recognition.onend = function() {
-            console.log('Reconocimiento de voz detenido.');
-        };
-    } else {
-        alert("Lo siento, tu navegador no soporta la funcionalidad de reconocimiento de voz.");
-    }
-});
-
 document.getElementById('aiPlannerForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío convencional del formulario
 
@@ -1565,3 +1594,129 @@ let aiPlanner;
 document.addEventListener('DOMContentLoaded', () => {
     aiPlanner = new AIPlanner();
 });
+
+document.getElementById('startVoiceInput').addEventListener('click', function() {
+    const preferencesInput = document.getElementById('input-preferences');
+    
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'es-ES';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        recognition.onresult = async function(event) {
+            const transcript = event.results[0][0].transcript;
+            preferencesInput.value += (preferencesInput.value ? ' ' : '') + transcript;
+
+            console.log('Transcripción: ', transcript);
+
+            // Después de recibir el texto, simular el análisis
+            await simulateAnalysis(transcript);
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Error: ', event.error);
+        };
+
+        recognition.onend = function() {
+            console.log('Reconocimiento de voz detenido.');
+        };
+    } else {
+        alert("Lo siento, tu navegador no soporta la funcionalidad de reconocimiento de voz.");
+    }
+});
+
+async function simulateAnalysis(transcript) {
+    // Muestra un mensaje indicando que se está procesando
+    console.log("Simulando análisis...");
+
+    // Simulación de un delay, como si se estuviera procesando
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Supón que obtenemos algunos resultados del análisis
+    const analysisResult = await simulate_video_analysis(transcript);
+
+    // Muestra el resultado en un área designada
+    displayAnalysisResult(analysisResult);
+    aiPlanner.fillFormFromTranscription(analysisResult.raw_message);
+}
+
+async function simulate_video_analysis(transcript) {
+    console.log("Simulando análisis de video con: ", transcript);
+    transcript = "dame el planning para la dieta de una semana con las siguientes características: dieta mediterranea, 1500-1800 kcal diarias, 3 comidas: desayuno, almuerzo y cena, sin lactosa, me gusta la comida picante y odio el pescado que no sea salmón o atún en lata, estoy yendo 2 veces a la semana al gimnasio durante una hora, quiero aumentar mi masa muscular mientras pierdo peso. Sé concisa y no digas recetas, solo platos.";
+    return {
+        message: "Análisis completado",
+        details: {
+            bmi: 22.5,
+            tdee: 2500,
+            calorie_target: "1500-1800",
+            diet_type: "mediterranea"
+        },
+        raw_message: transcript
+    };
+}
+
+function displayAnalysisResult(result) {
+    // Solo llenar el formulario sin mostrar el mensaje "Análisis completado"
+    console.log("✅ Transcripción procesada:", result.raw_message);
+    
+    // El formulario se llena automáticamente a través de aiPlanner.fillFormFromTranscription
+    // No mostramos el contenedor de resultados
+}
+
+// Funciones para el video fijo
+function toggleFixedVideo() {
+    const video = document.getElementById('fixedVideoPlayer');
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
+}
+
+function restartFixedVideo() {
+    const video = document.getElementById('fixedVideoPlayer');
+    video.currentTime = 0;
+    video.play();
+}
+
+// Event listener para el nuevo panel de voz
+document.addEventListener('DOMContentLoaded', function() {
+    const additionalVoiceBtn = document.getElementById('additionalVoiceInput');
+    if (additionalVoiceBtn) {
+        additionalVoiceBtn.addEventListener('click', function() {
+            const voiceText = document.getElementById('additionalVoiceText');
+            
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'es-ES';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.start();
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    voiceText.value += (voiceText.value ? ' ' : '') + transcript;
+                    console.log('Transcripción adicional:', transcript);
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Error en reconocimiento adicional:', event.error);
+                };
+            } else {
+                alert("Tu navegador no soporta reconocimiento de voz");
+            }
+        });
+    }
+});
+
+recognition.onerror = function(event) {
+    if (event.error === 'aborted') {
+        console.error('Error: Reconocimiento de voz abortado.');
+    } else {
+        console.error('Error: ', event.error);
+    }
+};
