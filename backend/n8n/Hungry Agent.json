@@ -1,0 +1,293 @@
+{
+  "name": "Hungry Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.prompt }}",
+        "contextWindowLength": 30
+      },
+      "id": "56d2684a-7f83-4ffd-8501-3253d999b4c6",
+      "cid": "Ikx1Y2FzIFBleXJpbiI",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        1008,
+        704
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "c218a5da-bec7-4034-8d2b-f4bca34e551e",
+      "cid": "Ikx1Y2FzIFBleXJpbiI",
+      "name": "Connect Gemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        880,
+        704
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ir2qNBBs6jJI7HbH",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Get list of products filtered by category, dietary or store",
+        "url": "https://unrelishable-hierarchically-laurinda.ngrok-free.dev/api/products?calories>0",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Name', `If you need filtering for store, use store_id`, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Name', `If you need filtering for dietary, use dietary`, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', ``, 'string') }}"
+            },
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Name', `If you need to limit the number of answers, use limit`, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', ``, 'string') }}"
+            },
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Name', `If you need filtering for category, use category`, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1136,
+        704
+      ],
+      "id": "137892de-1f69-4c34-8907-cbe12351293f",
+      "name": "Get products"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Get list of stores optionally filtered by cuisine",
+        "url": "https://unrelishable-hierarchically-laurinda.ngrok-free.dev/api/stores",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Name', `If you need filtering for cuisine, use cuisine`, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', ``, 'string') }}"
+            },
+            {
+              "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Name', `If you need to limit the number of answers, use limit`, 'string') }}",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1264,
+        704
+      ],
+      "id": "70079f86-f54b-4f1c-a5e0-93a1f3768e54",
+      "name": "Get stores"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.prompt }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a helpful assistant specialized in providing information about products.\n\n# Goal\nTo accurately answer user questions about products, prioritizing the use of the 'Get Products' tool when a product category is identified in the query.\n\n# Context\nYou have access to a set of tools to assist in retrieving product information.\n\n# Input\nThe user's question regarding products or product categories.\n\n# Output\nA clear and concise answer to the user's question, based on the information retrieved from the available tools.\n\n# Rules\n- If the user's question explicitly or implicitly mentions a product category, you must first use the `Get Products` tool with the identified category.\n- After successfully retrieving products, or if no category was identified, proceed to answer the user's question using any other available tools as needed.\n- Always provide a direct and helpful answer to the user.\n- If the response to the user needs to include information about a store, you must first obtain the `store_id` from the results of the `Get Products` tool. Then, call the `Get Stores` tool (without a `store_id` parameter) to retrieve a list of all available stores. Finally, you must search this list to find the store where its `id` field matches the `store_id` obtained from `Get Products`, and extract its name.\n- Under no circumstances should the `store_id` be exposed to the user in the final answer; only the store's name should be provided.\n- Only the parameters explicitly defined for each tool can be used; no other parameters are permitted.\n\n# Steps\n1. Analyze the user's query to determine if it implies a specific product category.\n2. If a product category is identified:\n    a. Call the `Get Products` tool, passing the identified category as a parameter.\n    b. Process the results returned by the `Get Products` tool.\n3. If no product category is identified, or after processing the results from `Get Products`:\n    a. If the `Get Products` results contain `store_id` and store information is required for the answer, call the `Get Stores` tool (without `store_id` parameter) to retrieve a list of all stores. Then, find the matching store by comparing the `store_id` from `Get Products` with the `id` field of each store in the returned list to get its name. Otherwise, use any other available tools to gather additional information relevant to the user's question.\n    b. Synthesize all gathered information to formulate a comprehensive answer.\n4. Present the final answer to the user.\n\n# Tools\n- name: Get Products\n  description: Retrieves a list of products for a specified category.\n  parameters:\n    type: object\n    properties:\n      dietary:\n        type: string\n        description: A dietary restriction (e.g., vegan) to filter products.\n      limit:\n        type: integer\n        description: The maximum number of products to retrieve.\n      category:\n        type: string\n        description: The category of products to retrieve (e.g., burger).\n- name: Get Stores\n  description: Retrieves a list of stores by cuisine or limit.\n  parameters:\n    type: object\n    properties:\n      cuisine:\n        type: string\n        description: The cuisine type of the stores to retrieve (e.g., mexican).\n      limit:\n        type: integer\n        description: The maximum number of stores to retrieve.\n\n# Termination Policy\nRespond to the user once their question has been fully and accurately addressed using the available tools and information.",
+          "returnIntermediateSteps": true
+        }
+      },
+      "id": "332af12a-45ab-4e5d-8dab-da21ba2111f9",
+      "cid": "Ikx1Y2FzIFBleXJpbiI",
+      "name": "Agente hambriento",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1072,
+        480
+      ],
+      "typeVersion": 2.2,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "path": "c4216344-27b1-4a41-b08a-6f826e409c16",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        656,
+        480
+      ],
+      "id": "50840675-5312-4bab-99f2-b0b911d94a19",
+      "name": "Webhook",
+      "webhookId": "c4216344-27b1-4a41-b08a-6f826e409c16"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1600,
+        480
+      ],
+      "id": "5e984fb4-44c8-403c-91c6-9aa85e9dfd23",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"item\": \"Vegan Burger\",\n\t\"stores\": [\"Burger Haven\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1392,
+        704
+      ],
+      "id": "fb3563f5-7960-4e4f-aa6b-1854b5be2061",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        736,
+        704
+      ],
+      "id": "b3529016-e6db-4543-85d2-2216f06ee7c0",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "O1udLZPZdcieXp2e",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Connect Gemini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente hambriento",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente hambriento",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get products": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente hambriento",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get stores": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente hambriento",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Agente hambriento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente hambriento": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Agente hambriento",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v0",
+    "availableInMCP": false
+  },
+  "versionId": "22ec3e18-baf9-4622-84c5-e7fe79ece9e6",
+  "meta": {
+    "templateId": "6270",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ba990fb7a98b65189e463f28c271dd8deb903fe58009689d1b865ea872832ca1"
+  },
+  "id": "xWFn0qE06YDTmATo",
+  "tags": []
+}
