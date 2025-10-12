@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "backend"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../Hackathon-AI-Summit-2025"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,58 @@
+@site_url = http://localhost:8000
+
+####
+# API information and features
+GET {{site_url}}/
+
+####
+# Health Check
+GET {{site_url}}/health
+
+####
+# List all stores
+GET {{site_url}}/api/stores?limit=20
+
+####
+# Filter by cuisine
+GET {{site_url}}/api/stores?cuisine=mexican&limit=20
+
+####
+# Get all products
+GET {{site_url}}/api/products?limit=20
+
+####
+# Filter by store and dietary preferences
+GET {{site_url}}/api/products?store_id=1&dietary=vegan&limit=10
+
+####
+# Filter by category
+GET {{site_url}}/api/products?category=burger&limit=10&calories>0
+
+####
+# List all users
+GET {{site_url}}/api/users
+
+####
+# Get user profile
+GET {{site_url}}/api/users/1
+
+####
+# Get user's orders history
+GET {{site_url}}/api/users/1/orders?limit=5
+
+####
+# Add product to cart
+POST {{site_url}}/api/carts/session123/add?product_id=1&quantity=2
+
+####
+# View cart contents
+GET {{site_url}}/api/carts/session123
+
+####
+# Call n8n webhook to process order
+GET https://xaviadderit.app.n8n.cloud/webhook-test/c4216344-27b1-4a41-b08a-6f826e409c16
+Content-Type: application/json
+
+{
+  "prompt": "Productos veganos"
+}
