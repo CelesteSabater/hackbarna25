@@ -3,8 +3,7 @@ from pinecone import Pinecone
 import os
 
 # Configuración de Pinecone
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "<TU_API_KEY>")
-PINECONE_ENV = os.getenv("PINECONE_ENV", "<TU_ENVIRONMENT>")
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "pcsk_not_really_a_key")
 INDEX_NAME = "hackbarna2025"
 
 pc = Pinecone(api_key=PINECONE_API_KEY)
@@ -43,8 +42,6 @@ def product_to_vector(product):
         len(str(product.get("ingredients", []))),
         int(product.get("available", 0)),
     ]
-
-# Insertar stores
 
 # Insertar stores
 for store in stores:
