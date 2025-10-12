@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>TranscripciÃ³ de vÃ­deo (Whisper)</title>
+</head>
+<body>
+  <h1>ðŸŽ™ï¸ TranscripciÃ³ AutomÃ tica</h1>
+  <form id='uploadForm'>
+    <input type='file' name='video' accept='video/*' required>
+    <button type='submit'>Transcriure</button>
+  </form>
+  <h3>ðŸ“ Resultat:</h3>
+  <pre id='resultat'></pre>
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultat = document.getElementById('resultat');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultat.textContent = 'â³ Processant...';
+      const formData = new FormData(form);
+      const res = await fetch('/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+      resultat.textContent = data.text || JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
