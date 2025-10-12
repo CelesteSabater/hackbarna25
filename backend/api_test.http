@@ -64,3 +64,20 @@ Content-Type: application/json
 {
   "prompt": "¿Puedes darme información sobre hamburguesas veganas?"
 }
+
+####
+POST https://prod-1-data.ke.pinecone.io/assistant/chat/olakease
+Api-Key: pcsk_6Le41R_JgxWB1Y6JJRwwg4A9mHK2HFawyyvxGp5fUCfXQ1w1pwWzwvaRzVuYS9AD4q4Q2d
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "¿Qué sabes de las hamburguesas veganas?"
+    }
+  ],
+  "stream": false,
+  "model": "gpt-4o"
+
+}
