@@ -1,0 +1,1221 @@
+{
+    "data": [
+        {
+            "id": 5,
+            "store_id": 2,
+            "product_name": "Fruit Tart",
+            "category": "dessert",
+            "price": 12.24,
+            "description": "Delicious fruit tart made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract",
+                "recommended",
+                "guaranteed"
+            ],
+            "calories": 422,
+            "prep_time": "28 min",
+            "popularity_score": 0.97,
+            "available": 1
+        },
+        {
+            "id": 52,
+            "store_id": 13,
+            "product_name": "Blender",
+            "category": "appliances",
+            "price": 377.54,
+            "description": "Quality blender - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "energy efficient",
+                "digital display",
+                "multiple settings",
+                "easy clean",
+                "compact design",
+                "certified"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.97,
+            "available": 1
+        },
+        {
+            "id": 25,
+            "store_id": 7,
+            "product_name": "Gaming Phone",
+            "category": "smartphones",
+            "price": 501.9,
+            "description": "Latest gaming phone with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "5G capable",
+                "HD camera",
+                "long battery",
+                "fast processor",
+                "wireless charging",
+                "certified",
+                "tested"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.95,
+            "available": 1
+        },
+        {
+            "id": 11,
+            "store_id": 3,
+            "product_name": "Fresh Lemonade",
+            "category": "beverages",
+            "price": 23.02,
+            "description": "Delicious fresh lemonade made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients"
+            ],
+            "calories": 153,
+            "prep_time": "45 min",
+            "popularity_score": 0.94,
+            "available": 1
+        },
+        {
+            "id": 18,
+            "store_id": 5,
+            "product_name": "5G Smartphone",
+            "category": "smartphones",
+            "price": 724.62,
+            "description": "Latest 5g smartphone with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "5G capable",
+                "HD camera",
+                "long battery",
+                "fast processor",
+                "wireless charging",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.93,
+            "available": 1
+        },
+        {
+            "id": 42,
+            "store_id": 11,
+            "product_name": "Herbal Tea",
+            "category": "beverages",
+            "price": 28.3,
+            "description": "Delicious herbal tea made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients",
+                "certified",
+                "guaranteed"
+            ],
+            "calories": 13,
+            "prep_time": "44 min",
+            "popularity_score": 0.92,
+            "available": 1
+        },
+        {
+            "id": 29,
+            "store_id": 8,
+            "product_name": "Bread",
+            "category": "pantry",
+            "price": 8.9,
+            "description": "High-quality bread - fresh and carefully selected",
+            "dietary_tags": [],
+            "ingredients": [
+                "non-GMO",
+                "preservative-free",
+                "whole grain",
+                "natural",
+                "shelf-stable",
+                "certified"
+            ],
+            "calories": 456,
+            "prep_time": null,
+            "popularity_score": 0.91,
+            "available": 1
+        },
+        {
+            "id": 22,
+            "store_id": 6,
+            "product_name": "Ice Cream",
+            "category": "dessert",
+            "price": 15.94,
+            "description": "Delicious ice cream made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract",
+                "recommended"
+            ],
+            "calories": 318,
+            "prep_time": "11 min",
+            "popularity_score": 0.89,
+            "available": 1
+        },
+        {
+            "id": 56,
+            "store_id": 14,
+            "product_name": "Mozzarella",
+            "category": "dairy",
+            "price": 9.03,
+            "description": "High-quality mozzarella - fresh and carefully selected",
+            "dietary_tags": [],
+            "ingredients": [
+                "pasteurized",
+                "vitamin D",
+                "calcium",
+                "protein",
+                "fresh",
+                "tested"
+            ],
+            "calories": 409,
+            "prep_time": null,
+            "popularity_score": 0.89,
+            "available": 1
+        },
+        {
+            "id": 6,
+            "store_id": 2,
+            "product_name": "Green Tea",
+            "category": "beverages",
+            "price": 10.18,
+            "description": "Delicious green tea made with fresh, quality ingredients",
+            "dietary_tags": [
+                "keto",
+                "organic"
+            ],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients"
+            ],
+            "calories": 41,
+            "prep_time": "42 min",
+            "popularity_score": 0.87,
+            "available": 1
+        },
+        {
+            "id": 10,
+            "store_id": 3,
+            "product_name": "Chicken Quesadilla",
+            "category": "mexican",
+            "price": 16.75,
+            "description": "Delicious chicken quesadilla made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "corn tortilla",
+                "black beans",
+                "cheese",
+                "salsa",
+                "cilantro",
+                "lime"
+            ],
+            "calories": 648,
+            "prep_time": "20 min",
+            "popularity_score": 0.85,
+            "available": 1
+        },
+        {
+            "id": 71,
+            "store_id": 18,
+            "product_name": "Shampoo",
+            "category": "personal_care",
+            "price": 17.48,
+            "description": "Quality shampoo - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "dermatologist tested",
+                "hypoallergenic",
+                "paraben-free",
+                "moisturizing",
+                "gentle formula",
+                "certified",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.84,
+            "available": 1
+        },
+        {
+            "id": 49,
+            "store_id": 13,
+            "product_name": "Picture Frame",
+            "category": "home",
+            "price": 81.52,
+            "description": "Quality picture frame - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "soft materials",
+                "easy care",
+                "durable",
+                "stylish design",
+                "practical",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.82,
+            "available": 1
+        },
+        {
+            "id": 70,
+            "store_id": 18,
+            "product_name": "Face Masks",
+            "category": "health",
+            "price": 28.01,
+            "description": "Quality face masks - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "FDA approved",
+                "clinically tested",
+                "fast acting",
+                "gentle formula",
+                "safe"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.81,
+            "available": 1
+        },
+        {
+            "id": 46,
+            "store_id": 12,
+            "product_name": "Blender",
+            "category": "appliances",
+            "price": 361.74,
+            "description": "Latest blender with advanced features and reliable performance",
+            "dietary_tags": [
+                "professional",
+                "wireless"
+            ],
+            "ingredients": [
+                "energy efficient",
+                "digital display",
+                "multiple settings",
+                "easy clean",
+                "compact design",
+                "certified",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.79,
+            "available": 1
+        },
+        {
+            "id": 23,
+            "store_id": 6,
+            "product_name": "Bean Bowl",
+            "category": "mexican",
+            "price": 11.27,
+            "description": "Delicious bean bowl made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "corn tortilla",
+                "black beans",
+                "cheese",
+                "salsa",
+                "cilantro",
+                "lime",
+                "premium"
+            ],
+            "calories": 553,
+            "prep_time": "37 min",
+            "popularity_score": 0.76,
+            "available": 1
+        },
+        {
+            "id": 53,
+            "store_id": 14,
+            "product_name": "Sponges",
+            "category": "household",
+            "price": 7.35,
+            "description": "High-quality sponges - fresh and carefully selected",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.76,
+            "available": 1
+        },
+        {
+            "id": 65,
+            "store_id": 17,
+            "product_name": "Whole Milk",
+            "category": "dairy",
+            "price": 2.58,
+            "description": "High-quality whole milk - fresh and carefully selected",
+            "dietary_tags": [
+                "vegetarian",
+                "organic"
+            ],
+            "ingredients": [
+                "pasteurized",
+                "vitamin D",
+                "calcium",
+                "protein",
+                "fresh",
+                "guaranteed"
+            ],
+            "calories": 372,
+            "prep_time": null,
+            "popularity_score": 0.72,
+            "available": 1
+        },
+        {
+            "id": 78,
+            "store_id": 20,
+            "product_name": "Paper Towels",
+            "category": "household",
+            "price": 6.29,
+            "description": "Quality paper towels - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "premium",
+                "certified"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.72,
+            "available": 1
+        },
+        {
+            "id": 75,
+            "store_id": 19,
+            "product_name": "Pain Relief",
+            "category": "health",
+            "price": 29.98,
+            "description": "Quality pain relief - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "FDA approved",
+                "clinically tested",
+                "fast acting",
+                "gentle formula",
+                "safe",
+                "recommended",
+                "premium"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.71,
+            "available": 1
+        },
+        {
+            "id": 76,
+            "store_id": 19,
+            "product_name": "Laundry Detergent",
+            "category": "household",
+            "price": 7.7,
+            "description": "Quality laundry detergent - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.69,
+            "available": 1
+        },
+        {
+            "id": 50,
+            "store_id": 13,
+            "product_name": "Trash Bags",
+            "category": "household",
+            "price": 3.68,
+            "description": "Quality trash bags - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "tested"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.68,
+            "available": 1
+        },
+        {
+            "id": 67,
+            "store_id": 17,
+            "product_name": "Shrimp",
+            "category": "meat",
+            "price": 19.2,
+            "description": "High-quality shrimp - fresh and carefully selected",
+            "dietary_tags": [],
+            "ingredients": [
+                "antibiotic-free",
+                "grass-fed",
+                "lean protein",
+                "fresh",
+                "premium cut",
+                "premium",
+                "recommended"
+            ],
+            "calories": 156,
+            "prep_time": null,
+            "popularity_score": 0.66,
+            "available": 1
+        },
+        {
+            "id": 7,
+            "store_id": 2,
+            "product_name": "Fresh Orange Juice",
+            "category": "beverages",
+            "price": 17.47,
+            "description": "Delicious fresh orange juice made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients"
+            ],
+            "calories": 296,
+            "prep_time": "25 min",
+            "popularity_score": 0.64,
+            "available": 1
+        },
+        {
+            "id": 74,
+            "store_id": 19,
+            "product_name": "Shampoo",
+            "category": "personal_care",
+            "price": 14.61,
+            "description": "Quality shampoo - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "dermatologist tested",
+                "hypoallergenic",
+                "paraben-free",
+                "moisturizing",
+                "gentle formula",
+                "premium",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.64,
+            "available": 1
+        },
+        {
+            "id": 72,
+            "store_id": 18,
+            "product_name": "Pain Relief",
+            "category": "health",
+            "price": 23.46,
+            "description": "Quality pain relief - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "FDA approved",
+                "clinically tested",
+                "fast acting",
+                "gentle formula",
+                "safe",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.61,
+            "available": 1
+        },
+        {
+            "id": 60,
+            "store_id": 15,
+            "product_name": "Trash Bags",
+            "category": "household",
+            "price": 12.96,
+            "description": "Quality trash bags - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.6,
+            "available": 1
+        },
+        {
+            "id": 9,
+            "store_id": 3,
+            "product_name": "Herbal Tea",
+            "category": "beverages",
+            "price": 18.61,
+            "description": "Delicious herbal tea made with fresh, quality ingredients",
+            "dietary_tags": [
+                "organic",
+                "vegetarian"
+            ],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients"
+            ],
+            "calories": 37,
+            "prep_time": "16 min",
+            "popularity_score": 0.58,
+            "available": 1
+        },
+        {
+            "id": 35,
+            "store_id": 9,
+            "product_name": "Toilet Paper",
+            "category": "household",
+            "price": 10.43,
+            "description": "Quality toilet paper - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.53,
+            "available": 1
+        },
+        {
+            "id": 64,
+            "store_id": 16,
+            "product_name": "Fresh Lemonade",
+            "category": "beverages",
+            "price": 27.32,
+            "description": "Delicious fresh lemonade made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients"
+            ],
+            "calories": 240,
+            "prep_time": "28 min",
+            "popularity_score": 0.53,
+            "available": 1
+        },
+        {
+            "id": 2,
+            "store_id": 1,
+            "product_name": "Cheese Burger",
+            "category": "burger",
+            "price": 14.84,
+            "description": "Delicious cheese burger made with fresh, quality ingredients",
+            "dietary_tags": [
+                "vegan",
+                "dairy-free"
+            ],
+            "ingredients": [
+                "beef patty",
+                "lettuce",
+                "tomato",
+                "onion",
+                "sesame bun",
+                "pickles"
+            ],
+            "calories": 277,
+            "prep_time": "25 min",
+            "popularity_score": 0.5,
+            "available": 1
+        },
+        {
+            "id": 16,
+            "store_id": 4,
+            "product_name": "Laundry Detergent",
+            "category": "household",
+            "price": 8.52,
+            "description": "Quality laundry detergent - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.49,
+            "available": 1
+        },
+        {
+            "id": 13,
+            "store_id": 4,
+            "product_name": "Toilet Paper",
+            "category": "household",
+            "price": 3.91,
+            "description": "Quality toilet paper - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "premium"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.48,
+            "available": 1
+        },
+        {
+            "id": 57,
+            "store_id": 15,
+            "product_name": "Dish Soap",
+            "category": "household",
+            "price": 5.4,
+            "description": "Quality dish soap - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.47,
+            "available": 1
+        },
+        {
+            "id": 1,
+            "store_id": 1,
+            "product_name": "Fruit Tart",
+            "category": "dessert",
+            "price": 23.13,
+            "description": "Delicious fruit tart made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract"
+            ],
+            "calories": 262,
+            "prep_time": "16 min",
+            "popularity_score": 0.46,
+            "available": 1
+        },
+        {
+            "id": 37,
+            "store_id": 10,
+            "product_name": "Bluetooth Speaker",
+            "category": "audio",
+            "price": 85.8,
+            "description": "Latest bluetooth speaker with advanced features and reliable performance",
+            "dietary_tags": [
+                "gaming",
+                "wireless"
+            ],
+            "ingredients": [
+                "noise canceling",
+                "wireless",
+                "high fidelity",
+                "long battery",
+                "comfortable fit"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.44,
+            "available": 1
+        },
+        {
+            "id": 21,
+            "store_id": 6,
+            "product_name": "Ice Cream",
+            "category": "dessert",
+            "price": 13.67,
+            "description": "Delicious ice cream made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract"
+            ],
+            "calories": 608,
+            "prep_time": "22 min",
+            "popularity_score": 0.4,
+            "available": 1
+        },
+        {
+            "id": 26,
+            "store_id": 7,
+            "product_name": "Microwave",
+            "category": "appliances",
+            "price": 371.08,
+            "description": "Latest microwave with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "energy efficient",
+                "digital display",
+                "multiple settings",
+                "easy clean",
+                "compact design"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.37,
+            "available": 1
+        },
+        {
+            "id": 28,
+            "store_id": 7,
+            "product_name": "Tablet",
+            "category": "computers",
+            "price": 1717.32,
+            "description": "Latest tablet with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "high performance",
+                "SSD storage",
+                "fast RAM",
+                "graphics card",
+                "USB-C ports",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.37,
+            "available": 1
+        },
+        {
+            "id": 63,
+            "store_id": 16,
+            "product_name": "Chocolate Cake",
+            "category": "dessert",
+            "price": 14.75,
+            "description": "Delicious chocolate cake made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract"
+            ],
+            "calories": 766,
+            "prep_time": "13 min",
+            "popularity_score": 0.36,
+            "available": 1
+        },
+        {
+            "id": 36,
+            "store_id": 9,
+            "product_name": "Blood Pressure Monitor",
+            "category": "health",
+            "price": 20.29,
+            "description": "Quality blood pressure monitor - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "FDA approved",
+                "clinically tested",
+                "fast acting",
+                "gentle formula",
+                "safe",
+                "tested",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.35,
+            "available": 1
+        },
+        {
+            "id": 8,
+            "store_id": 2,
+            "product_name": "Mochi Ice Cream",
+            "category": "dessert",
+            "price": 13.28,
+            "description": "Delicious mochi ice cream made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract",
+                "tested",
+                "recommended"
+            ],
+            "calories": 444,
+            "prep_time": "30 min",
+            "popularity_score": 0.34,
+            "available": 1
+        },
+        {
+            "id": 79,
+            "store_id": 20,
+            "product_name": "Air Fryer",
+            "category": "appliances",
+            "price": 80.5,
+            "description": "Quality air fryer - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "energy efficient",
+                "digital display",
+                "multiple settings",
+                "easy clean",
+                "compact design",
+                "premium",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.33,
+            "available": 1
+        },
+        {
+            "id": 62,
+            "store_id": 16,
+            "product_name": "Mochi Ice Cream",
+            "category": "dessert",
+            "price": 29.58,
+            "description": "Delicious mochi ice cream made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract",
+                "recommended",
+                "tested"
+            ],
+            "calories": 503,
+            "prep_time": "22 min",
+            "popularity_score": 0.3,
+            "available": 1
+        },
+        {
+            "id": 17,
+            "store_id": 5,
+            "product_name": "Gaming Headset",
+            "category": "audio",
+            "price": 362.59,
+            "description": "Latest gaming headset with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "noise canceling",
+                "wireless",
+                "high fidelity",
+                "long battery",
+                "comfortable fit"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.29,
+            "available": 1
+        },
+        {
+            "id": 43,
+            "store_id": 11,
+            "product_name": "Deluxe Burger",
+            "category": "burger",
+            "price": 10.05,
+            "description": "Delicious deluxe burger made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "beef patty",
+                "lettuce",
+                "tomato",
+                "onion",
+                "sesame bun",
+                "pickles",
+                "certified"
+            ],
+            "calories": 535,
+            "prep_time": "34 min",
+            "popularity_score": 0.29,
+            "available": 1
+        },
+        {
+            "id": 12,
+            "store_id": 3,
+            "product_name": "Chicken Quesadilla",
+            "category": "mexican",
+            "price": 14.91,
+            "description": "Delicious chicken quesadilla made with fresh, quality ingredients",
+            "dietary_tags": [
+                "halal"
+            ],
+            "ingredients": [
+                "corn tortilla",
+                "black beans",
+                "cheese",
+                "salsa",
+                "cilantro",
+                "lime",
+                "certified",
+                "tested"
+            ],
+            "calories": 551,
+            "prep_time": "23 min",
+            "popularity_score": 0.28,
+            "available": 1
+        },
+        {
+            "id": 45,
+            "store_id": 12,
+            "product_name": "Bluetooth Speaker",
+            "category": "audio",
+            "price": 381.35,
+            "description": "Latest bluetooth speaker with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "noise canceling",
+                "wireless",
+                "high fidelity",
+                "long battery",
+                "comfortable fit",
+                "premium",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.28,
+            "available": 1
+        },
+        {
+            "id": 48,
+            "store_id": 12,
+            "product_name": "Soundbar",
+            "category": "audio",
+            "price": 378.33,
+            "description": "Latest soundbar with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "noise canceling",
+                "wireless",
+                "high fidelity",
+                "long battery",
+                "comfortable fit",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.28,
+            "available": 1
+        },
+        {
+            "id": 80,
+            "store_id": 20,
+            "product_name": "Sponges",
+            "category": "household",
+            "price": 7.12,
+            "description": "Quality sponges - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "premium",
+                "guaranteed"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.27,
+            "available": 1
+        },
+        {
+            "id": 30,
+            "store_id": 8,
+            "product_name": "Shampoo",
+            "category": "personal_care",
+            "price": 15.8,
+            "description": "High-quality shampoo - fresh and carefully selected",
+            "dietary_tags": [
+                "vegetarian",
+                "vegan"
+            ],
+            "ingredients": [
+                "dermatologist tested",
+                "hypoallergenic",
+                "paraben-free",
+                "moisturizing",
+                "gentle formula",
+                "tested",
+                "certified"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.23,
+            "available": 1
+        },
+        {
+            "id": 33,
+            "store_id": 9,
+            "product_name": "Hand Sanitizer",
+            "category": "health",
+            "price": 27.84,
+            "description": "Quality hand sanitizer - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "FDA approved",
+                "clinically tested",
+                "fast acting",
+                "gentle formula",
+                "safe"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.21,
+            "available": 1
+        },
+        {
+            "id": 47,
+            "store_id": 12,
+            "product_name": "Vacuum Cleaner",
+            "category": "appliances",
+            "price": 483.76,
+            "description": "Latest vacuum cleaner with advanced features and reliable performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "energy efficient",
+                "digital display",
+                "multiple settings",
+                "easy clean",
+                "compact design",
+                "premium",
+                "certified"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.2,
+            "available": 1
+        },
+        {
+            "id": 58,
+            "store_id": 15,
+            "product_name": "Toilet Paper",
+            "category": "household",
+            "price": 10.92,
+            "description": "Quality toilet paper - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "guaranteed",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.18,
+            "available": 1
+        },
+        {
+            "id": 15,
+            "store_id": 4,
+            "product_name": "All-Purpose Cleaner",
+            "category": "household",
+            "price": 3.09,
+            "description": "Quality all-purpose cleaner - excellent value and performance",
+            "dietary_tags": [],
+            "ingredients": [
+                "biodegradable",
+                "eco-friendly",
+                "concentrated",
+                "long-lasting",
+                "effective",
+                "recommended"
+            ],
+            "calories": 0,
+            "prep_time": null,
+            "popularity_score": 0.17,
+            "available": 1
+        },
+        {
+            "id": 41,
+            "store_id": 11,
+            "product_name": "Herbal Tea",
+            "category": "beverages",
+            "price": 13.6,
+            "description": "Delicious herbal tea made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "water",
+                "natural flavors",
+                "organic ingredients",
+                "certified",
+                "guaranteed"
+            ],
+            "calories": 248,
+            "prep_time": "37 min",
+            "popularity_score": 0.13,
+            "available": 1
+        },
+        {
+            "id": 44,
+            "store_id": 11,
+            "product_name": "Flan",
+            "category": "dessert",
+            "price": 14.29,
+            "description": "Delicious flan made with fresh, quality ingredients",
+            "dietary_tags": [],
+            "ingredients": [
+                "flour",
+                "sugar",
+                "eggs",
+                "butter",
+                "vanilla extract",
+                "guaranteed"
+            ],
+            "calories": 681,
+            "prep_time": "15 min",
+            "popularity_score": 0.12,
+            "available": 1
+        }
+    ],
+    "total": 57,
+    "limit": 100,
+    "offset": 0,
+    "has_more": false
+}
